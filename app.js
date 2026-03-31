@@ -110,6 +110,43 @@ function debounce(fn, ms) {
   };
 }
 
+// ---- SCROLL LOCK (iOS-safe) ----
+// Using position:fixed instead of overflow:hidden to prevent iOS scroll issues
+
+let savedScrollY = 0;
+let lockCount = 0;
+
+function lockScroll() {
+  lockCount++;
+  if (lockCount === 1) {
+    savedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+  }
+}
+
+function unlockScroll() {
+  lockCount = Math.max(0, lockCount - 1);
+  if (lockCount === 0) {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    window.scrollTo(0, savedScrollY);
+  }
+}
+
+function forceUnlockScroll() {
+  lockCount = 0;
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  window.scrollTo(0, savedScrollY);
+}
+
 // ---- STATE ----
 
 let allFounders = [];
@@ -342,12 +379,12 @@ function openDetail(f) {
     </div>`;
 
   document.getElementById('detailOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
 }
 
 function closeDetail() {
   document.getElementById('detailOverlay').classList.remove('open');
-  if (!document.getElementById('modalOverlay').classList.contains('open')) document.body.style.overflow = '';
+  unlockScroll();
 }
 
 // ---- MODAL CONTROLS ----
@@ -360,7 +397,7 @@ function openModal() {
   document.getElementById('submitBtnText').textContent = 'Add Me to the Community';
   document.getElementById('formMessage').textContent = '';
   document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
 }
 
 function openModalForEdit(founder) {
@@ -406,7 +443,7 @@ function openModalForEdit(founder) {
   toggleOtherIndustry();
 
   document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
 }
 
 function setTagSelector(containerId, hiddenId, value, multi) {
@@ -424,7 +461,7 @@ function setTagSelector(containerId, hiddenId, value, multi) {
 
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
+  unlockScroll();
   // Reset form
   document.getElementById('founderForm').reset();
   document.querySelectorAll('#profileModal .tag-option.selected').forEach(c => c.classList.remove('selected'));
@@ -461,7 +498,7 @@ document.getElementById('mobileMenuBtn').addEventListener('click', () => {
     closeMobileMenu();
   } else {
     menu.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     document.getElementById('menuIconOpen').style.display = 'none';
     document.getElementById('menuIconClose').style.display = 'block';
   }
@@ -472,9 +509,7 @@ function closeMobileMenu() {
   menu.classList.remove('open');
   document.getElementById('menuIconOpen').style.display = 'block';
   document.getElementById('menuIconClose').style.display = 'none';
-  // Only restore scroll if no other modal is open
-  const anyModalOpen = document.querySelector('.modal-overlay.open');
-  if (!anyModalOpen) document.body.style.overflow = '';
+  unlockScroll();
 }
 
 // Navbar scroll
@@ -488,13 +523,13 @@ function openEditDialog() {
   document.getElementById('editIdInput').value = '';
   document.getElementById('editIdError').textContent = '';
   document.getElementById('editDialogOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
   setTimeout(() => document.getElementById('editIdInput').focus(), 200);
 }
 
 function closeEditDialog() {
   document.getElementById('editDialogOverlay').classList.remove('open');
-  document.body.style.overflow = '';
+  unlockScroll();
 }
 
 function loadProfileForEdit() {
@@ -520,14 +555,17 @@ function loadProfileForEdit() {
 function showCelebration(id) {
   document.getElementById('celebrationId').textContent = id;
   document.getElementById('celebrationOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
   launchConfetti();
 }
 
 function closeCelebration() {
   document.getElementById('celebrationOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-  document.getElementById('directory').scrollIntoView({ behavior: 'smooth' });
+  unlockScroll();
+  // Wait a tick for scroll position to restore, then scroll to directory
+  setTimeout(() => {
+    document.getElementById('directory').scrollIntoView({ behavior: 'smooth' });
+  }, 50);
 }
 
 document.getElementById('copyIdBtn').addEventListener('click', () => {

@@ -443,6 +443,8 @@ body {
   backdrop-filter: blur(6px); z-index: 200;
   display: none; align-items: flex-start; justify-content: center;
   padding: 40px 16px; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 .modal-overlay.open { display: flex; }
 
@@ -475,6 +477,8 @@ body {
 .modal-body {
   padding: 20px 28px 28px;
   max-height: calc(100vh - 120px); overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 /* Form */
@@ -719,14 +723,14 @@ body {
   .results-count { width: 100%; }
 
   /* Modal mobile fixes */
-  .modal-overlay { padding: 0; align-items: stretch; }
+  .modal-overlay { padding: 0; align-items: flex-start; }
   .modal { border-radius: 0; max-width: 100%; min-height: 100vh; }
-  .modal-body { padding: 16px 20px 24px; max-height: none; }
+  .modal-body { padding: 16px 20px 24px; max-height: none; overflow-y: visible; }
   .modal-header { padding: 20px 20px 0; }
-  .modal-detail { min-height: auto; border-radius: 16px; margin: 16px; min-height: 0; }
-  #detailOverlay { padding: 0; align-items: center; }
-  #celebrationOverlay { padding: 16px; }
-  #editDialogOverlay { padding: 16px; }
+  .modal-detail { min-height: auto; border-radius: 16px; margin: 16px; max-height: calc(100vh - 32px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  #detailOverlay { padding: 16px; align-items: center; }
+  #celebrationOverlay { padding: 16px; align-items: center; }
+  #editDialogOverlay { padding: 16px; align-items: center; }
 
   .detail-profile { padding: 0 20px; flex-direction: column; align-items: center; text-align: center; }
   .detail-info { padding-top: 12px; }

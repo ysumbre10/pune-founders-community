@@ -623,7 +623,7 @@ body {
 /* ====== CELEBRATION MODAL ====== */
 .celebration-modal {
   background: white; border-radius: 24px; width: 100%; max-width: 440px;
-  padding: 40px 32px; text-align: center;
+  padding: 40px 32px; text-align: center; position: relative;
   box-shadow: var(--shadow-xl); animation: celebIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 @keyframes celebIn {
@@ -668,6 +668,7 @@ body {
   animation: modalSlideIn 0.3s ease; position: relative;
 }
 .edit-dialog .modal-close { position: absolute; top: 12px; right: 12px; }
+.celebration-close { position: absolute; top: 12px; right: 12px; }
 .edit-dialog-icon { color: var(--primary); margin-bottom: 12px; }
 .edit-dialog h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
 .edit-dialog p { font-size: 0.88rem; color: var(--text-secondary); }
@@ -708,6 +709,11 @@ body {
 }
 .footer p { font-size: 0.82rem; color: var(--text-tertiary); }
 
+/* ====== MOBILE BACK/CLOSE BUTTON (floating, for full-screen modals) ====== */
+.mobile-back-close {
+  display: none; /* hidden on desktop */
+}
+
 /* ====== RESPONSIVE ====== */
 @media (max-width: 768px) {
   .hero { padding: 120px 0 72px; }
@@ -726,8 +732,27 @@ body {
   .modal-overlay { padding: 0; align-items: flex-start; }
   .modal { border-radius: 0; max-width: 100%; min-height: 100vh; }
   .modal-body { padding: 16px 20px 24px; max-height: none; overflow-y: visible; }
-  .modal-header { padding: 20px 20px 0; }
+  .modal-header {
+    padding: 20px 20px 0;
+    position: sticky; top: 0; z-index: 10;
+    background: white;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .modal-overlay.open .mobile-back-close {
+    display: flex; align-items: center; justify-content: center;
+    position: fixed; bottom: 24px; right: 20px; z-index: 210;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--primary); color: white; border: none;
+    box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+    cursor: pointer; transition: var(--t);
+  }
+  .modal-overlay.open .mobile-back-close:active { transform: scale(0.92); }
   .modal-detail { min-height: auto; border-radius: 16px; margin: 16px; max-height: calc(100vh - 32px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .modal-detail .detail-close {
+    position: sticky; top: 8px; float: right; z-index: 10;
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(8px);
+  }
   #detailOverlay { padding: 16px; align-items: center; }
   #celebrationOverlay { padding: 16px; align-items: center; }
   #editDialogOverlay { padding: 16px; align-items: center; }

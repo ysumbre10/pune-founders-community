@@ -379,6 +379,7 @@ function openDetail(f) {
     </div>`;
 
   document.getElementById('detailOverlay').classList.add('open');
+  pushOverlayState('detail');
   lockScroll();
 }
 
@@ -397,6 +398,7 @@ function openModal() {
   document.getElementById('submitBtnText').textContent = 'Add Me to the Community';
   document.getElementById('formMessage').textContent = '';
   document.getElementById('modalOverlay').classList.add('open');
+  pushOverlayState('modal');
   lockScroll();
 }
 
@@ -443,6 +445,7 @@ function openModalForEdit(founder) {
   toggleOtherIndustry();
 
   document.getElementById('modalOverlay').classList.add('open');
+  pushOverlayState('modal');
   lockScroll();
 }
 
@@ -490,6 +493,21 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// ---- BROWSER BACK BUTTON SUPPORT (mobile) ----
+// Push history state when opening overlays so the back button closes them
+
+function pushOverlayState(name) {
+  history.pushState({ overlay: name }, '');
+}
+
+window.addEventListener('popstate', e => {
+  if (document.getElementById('celebrationOverlay').classList.contains('open')) { closeCelebration(); return; }
+  if (document.getElementById('editDialogOverlay').classList.contains('open')) { closeEditDialog(); return; }
+  if (document.getElementById('detailOverlay').classList.contains('open')) { closeDetail(); return; }
+  if (document.getElementById('modalOverlay').classList.contains('open')) { closeModal(); return; }
+  if (document.getElementById('mobileMenu').classList.contains('open')) { closeMobileMenu(); return; }
+});
+
 // Mobile menu — full-page overlay
 document.getElementById('mobileMenuBtn').addEventListener('click', () => {
   const menu = document.getElementById('mobileMenu');
@@ -498,6 +516,7 @@ document.getElementById('mobileMenuBtn').addEventListener('click', () => {
     closeMobileMenu();
   } else {
     menu.classList.add('open');
+    pushOverlayState('mobileMenu');
     lockScroll();
     document.getElementById('menuIconOpen').style.display = 'none';
     document.getElementById('menuIconClose').style.display = 'block';
@@ -523,6 +542,7 @@ function openEditDialog() {
   document.getElementById('editIdInput').value = '';
   document.getElementById('editIdError').textContent = '';
   document.getElementById('editDialogOverlay').classList.add('open');
+  pushOverlayState('editDialog');
   lockScroll();
   setTimeout(() => document.getElementById('editIdInput').focus(), 200);
 }
@@ -555,6 +575,7 @@ function loadProfileForEdit() {
 function showCelebration(id) {
   document.getElementById('celebrationId').textContent = id;
   document.getElementById('celebrationOverlay').classList.add('open');
+  pushOverlayState('celebration');
   lockScroll();
   launchConfetti();
 }

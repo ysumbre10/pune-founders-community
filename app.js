@@ -310,7 +310,13 @@ function createCard(f, i) {
         <div class="card-name">${esc(f.name)}</div>
         <div class="card-role">${esc(f.role || '')}</div>
         <div class="card-company-line">
-          <span class="card-company">${esc(f.company)}</span>
+          ${(function() {
+            if (f.website) {
+              let u = f.website; if (!u.startsWith('http')) u = 'https://' + u;
+              return `<a href="${esc(u)}" target="_blank" rel="noopener" class="card-company card-company-link" onclick="event.stopPropagation()">${esc(f.company)}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:3px;opacity:0.5;vertical-align:middle"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`;
+            }
+            return `<span class="card-company">${esc(f.company)}</span>`;
+          })()}
           ${f.stage ? `<span class="card-stage-badge">${esc(f.stage)}</span>` : ''}
         </div>
       </div>
@@ -354,7 +360,13 @@ function openDetail(f) {
         <div class="detail-name">${esc(f.name)}</div>
         <div class="detail-role">${esc(f.role || '')}</div>
         <div class="detail-company-line">
-          <span class="detail-company">${esc(f.company)}</span>
+          ${(function() {
+            if (f.website) {
+              let u = f.website; if (!u.startsWith('http')) u = 'https://' + u;
+              return `<a href="${esc(u)}" target="_blank" rel="noopener" class="detail-company detail-company-link">${esc(f.company)}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:4px;opacity:0.6;vertical-align:middle"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`;
+            }
+            return `<span class="detail-company">${esc(f.company)}</span>`;
+          })()}
           ${f.stage ? `<span class="detail-stage">${esc(f.stage)}</span>` : ''}
         </div>
       </div>
@@ -628,9 +640,13 @@ function launchConfetti() {
 // ---- RENDERING ----
 
 function updateStats() {
-  animateNum(document.getElementById('founderCount'), allFounders.length);
-  const cos = new Set(allFounders.map(f => f.company.toLowerCase()));
-  animateNum(document.getElementById('companyCount'), cos.size);
+  const fcEl = document.getElementById('founderCount');
+  if (fcEl) animateNum(fcEl, allFounders.length);
+  const ccEl = document.getElementById('companyCount');
+  if (ccEl) {
+    const cos = new Set(allFounders.map(f => f.company.toLowerCase()));
+    animateNum(ccEl, cos.size);
+  }
 }
 
 function renderFounders(list) {

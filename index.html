@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FoundersX — Find Your People</title>
-  <meta name="description" content="The directory of startup founders building in Pune. Find co-founders, mentors, investors, and collaborators.">
+  <meta name="description" content="The directory of startup founders building across India. Find co-founders, mentors, investors, and the people who actually get it.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -49,7 +49,7 @@
       </nav>
       <button class="mobile-cta" onclick="openModal(); closeMobileMenu();">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-        Join the Community
+        Claim Your Spot
       </button>
       <p class="mobile-menu-footer">Founders<span class="logo-x">X</span></p>
     </div>
@@ -61,9 +61,9 @@
     <div class="hero-glow hero-glow-1"></div>
     <div class="hero-glow hero-glow-2"></div>
     <div class="container hero-container">
-      <div class="hero-badge">Pune's Startup Ecosystem</div>
+      <div class="hero-badge">India's Builder Network</div>
       <h1 class="hero-title">Where Founders<br><span class="gradient-text">Find Each Other</span></h1>
-      <p class="hero-subtitle">The only directory you need. Discover who's building what in Pune — find co-founders, mentors, investors, and the help you actually need.</p>
+      <p class="hero-subtitle">The only directory you need. Find who's building what across India - co-founders, mentors, investors, and the people who actually get it.</p>
       <div class="hero-stats">
         <div class="hero-stat">
           <span class="hero-stat-num" id="founderCount">0</span>
@@ -76,8 +76,8 @@
         </div>
       </div>
       <div class="hero-actions">
-        <button class="btn-primary btn-lg" onclick="openModal()">Join the Community</button>
-        <a href="#directory" class="btn-ghost btn-lg">Browse Founders</a>
+        <button class="btn-primary btn-lg" onclick="openModal()">Claim Your Spot</button>
+        <a href="#directory" class="btn-ghost btn-lg">Find Your People</a>
       </div>
     </div>
   </header>
@@ -168,22 +168,22 @@
       <!-- States -->
       <div id="loadingState" class="state-msg">
         <div class="loader"></div>
-        <p>Loading founders...</p>
+        <p>Fetching the builders...</p>
       </div>
       <div id="emptyState" class="state-msg" style="display:none;">
         <div class="state-icon">
           <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
-        <h3>No founders yet</h3>
-        <p>Be the first to join FoundersX!</p>
-        <button class="btn-primary" onclick="openModal()" style="margin-top:16px;">Add Your Profile</button>
+        <h3>First mover advantage - all yours.</h3>
+        <p>Be the first founder on the map.</p>
+        <button class="btn-primary" onclick="openModal()" style="margin-top:16px;">Claim Your Spot</button>
       </div>
       <div id="noResults" class="state-msg" style="display:none;">
         <div class="state-icon">
           <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6"/></svg>
         </div>
-        <h3>No matches found</h3>
-        <p>Try different search terms or clear your filters.</p>
+        <h3>Nothing here.</h3>
+        <p>Your future co-founder is hiding somewhere. Try a different search.</p>
       </div>
     </div>
   </section>
@@ -206,8 +206,8 @@
     <div class="modal" id="profileModal">
       <div class="modal-header">
         <div>
-          <h2 id="modalTitle">Join the Community</h2>
-          <p id="modalSubtitle">Tell fellow founders about yourself and your startup.</p>
+          <h2 id="modalTitle">Get on the Map</h2>
+          <p id="modalSubtitle">30 seconds to be discoverable. Worth it.</p>
         </div>
         <button class="modal-close" onclick="closeModal()" aria-label="Close">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -225,47 +225,46 @@
             <span class="form-section-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </span>
-            About You
+            The Human Behind the Hustle
           </h3>
           <div class="form-row">
             <div class="form-group">
-              <label for="f_name">Full Name <span class="req">*</span></label>
-              <input type="text" id="f_name" placeholder="e.g. Ratan Tata" required>
+              <label for="f_name">What do people call you? <span class="req">*</span></label>
+              <input type="text" id="f_name" placeholder="e.g. Priya Sharma" required>
             </div>
             <div class="form-group">
-              <label for="f_role">Your Role <span class="req">*</span></label>
+              <label for="f_role">Title / Hat you wear <span class="req">*</span></label>
               <input type="text" id="f_role" placeholder="e.g. Co-founder & CEO" required>
             </div>
           </div>
           <div class="form-group">
-            <label for="f_bio">Short Bio</label>
-            <textarea id="f_bio" rows="2" placeholder="Tell the community about your journey, background, or a fun fact..."></textarea>
+            <label for="f_bio">Origin Story</label>
+            <textarea id="f_bio" rows="2" placeholder="Ex-banker turned founder? Dropped out to ship? Serial pivoter? Give us the lore."></textarea>
           </div>
           <div class="form-group">
-            <label for="f_puneArea">Area in Pune</label>
+            <label for="f_puneArea">City / Base of Ops</label>
             <select id="f_puneArea" onchange="toggleOtherArea()">
-              <option value="">Select your area</option>
-              <option>Koregaon Park</option>
-              <option>Hinjewadi</option>
-              <option>Kharadi</option>
-              <option>Baner</option>
-              <option>Viman Nagar</option>
-              <option>Wakad</option>
-              <option>Aundh</option>
-              <option>Shivajinagar</option>
-              <option>Hadapsar</option>
-              <option>Magarpatta</option>
-              <option>Pimpri-Chinchwad</option>
-              <option>Kalyani Nagar</option>
-              <option>Camp</option>
-              <option>Deccan</option>
-              <option>Kothrud</option>
-              <option>Warje</option>
-              <option>SB Road</option>
-              <option>FC Road</option>
+              <option value="">Where are you building from?</option>
+              <option>Bengaluru</option>
+              <option>Mumbai</option>
+              <option>Delhi</option>
+              <option>Gurugram / Noida</option>
+              <option>Hyderabad</option>
+              <option>Pune</option>
+              <option>Chennai</option>
+              <option>Ahmedabad</option>
+              <option>Kolkata</option>
+              <option>Jaipur</option>
+              <option>Indore</option>
+              <option>Kochi</option>
+              <option>Chandigarh</option>
+              <option>Nagpur</option>
+              <option>Surat</option>
+              <option>Bhopal</option>
+              <option>Coimbatore</option>
               <option value="Other">Other</option>
             </select>
-            <input type="text" id="f_puneAreaOther" class="other-input" placeholder="Type your area in Pune..." style="display:none; margin-top:8px;">
+            <input type="text" id="f_puneAreaOther" class="other-input" placeholder="Type your city or area..." style="display:none; margin-top:8px;">
           </div>
         </div>
 
@@ -275,12 +274,12 @@
             <span class="form-section-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </span>
-            Your Startup
+            The Venture
           </h3>
           <div class="form-row">
             <div class="form-group">
-              <label for="f_company">Company Name <span class="req">*</span></label>
-              <input type="text" id="f_company" placeholder="e.g. TechPune Labs" required>
+              <label for="f_company">Startup Name <span class="req">*</span></label>
+              <input type="text" id="f_company" placeholder="e.g. Razorpay, Zepto, your next big thing" required>
             </div>
             <div class="form-group">
               <label for="f_foundedYear">Founded Year</label>
@@ -288,8 +287,8 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="f_oneLiner">What does your startup do? <span class="req">*</span></label>
-            <textarea id="f_oneLiner" rows="2" placeholder="e.g. We build AI-powered CRM tools that help D2C brands in India manage customer relationships and boost repeat purchases." required></textarea>
+            <label for="f_oneLiner">The pitch. Make it count. <span class="req">*</span></label>
+            <textarea id="f_oneLiner" rows="2" placeholder="e.g. We kill spreadsheets for CA firms. 10x faster closes, zero reconciliation headache." required></textarea>
           </div>
           <div class="form-group">
             <label>Industry <span class="req">*</span></label>
@@ -309,15 +308,15 @@
             <span class="form-section-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </span>
-            Help & Collaboration
+            The Network Play
           </h3>
           <div class="form-group">
-            <label>What help do you need? <span class="hint">(select all that apply)</span></label>
+            <label>What are you hunting for? <span class="hint">(select all that apply)</span></label>
             <div class="tag-selector" id="helpSelector"></div>
             <input type="hidden" id="f_helpNeeded">
           </div>
           <div class="form-group">
-            <label>What can you offer others? <span class="hint">(select all that apply)</span></label>
+            <label>What can you bring to the table? <span class="hint">(select all that apply)</span></label>
             <div class="tag-selector" id="offerSelector"></div>
             <input type="hidden" id="f_canOffer">
           </div>
@@ -329,7 +328,7 @@
             <span class="form-section-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
             </span>
-            Contact & Socials
+            How to Find You
           </h3>
           <div class="form-row">
             <div class="form-group">
@@ -369,7 +368,7 @@
 
         <div class="form-footer">
           <button type="submit" class="btn-primary btn-lg btn-full" id="submitBtn">
-            <span class="btn-text" id="submitBtnText">Add Me to the Community</span>
+            <span class="btn-text" id="submitBtnText">Ship My Profile</span>
             <span class="btn-loading" style="display:none;">
               <span class="spinner"></span> Saving...
             </span>
@@ -398,8 +397,8 @@
       </button>
       <div class="celebration-content">
         <div class="celebration-emoji">🎉</div>
-        <h2>Welcome to the Community!</h2>
-        <p class="celebration-subtitle">You're now part of Pune's founder network.</p>
+        <h2>You're in. Welcome to the tribe.</h2>
+        <p class="celebration-subtitle">You're now on India's founder map.</p>
         <div class="celebration-id-box">
           <div class="celebration-id-label">Your Profile ID</div>
           <div class="celebration-id-value" id="celebrationId">FC1234567890</div>
@@ -408,8 +407,8 @@
             Copy ID
           </button>
         </div>
-        <p class="celebration-note">Save this ID! You'll need it to edit your profile later.</p>
-        <button class="btn-primary btn-lg" onclick="closeCelebration()">Got it, take me to the directory</button>
+        <p class="celebration-note">Screenshot this. Tattoo it. Just don't lose it - you'll need it to edit your profile.</p>
+        <button class="btn-primary btn-lg" onclick="closeCelebration()">Show me who's building</button>
       </div>
     </div>
   </div>
@@ -424,13 +423,13 @@
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       </div>
       <h3>Edit Your Profile</h3>
-      <p>Enter the Profile ID you received when you signed up.</p>
+      <p>Drop the Profile ID we made you screenshot. You did screenshot it, right?</p>
       <div class="form-group" style="margin-top:16px;">
         <input type="text" id="editIdInput" placeholder="e.g. FC1711899123456">
       </div>
       <div id="editIdError" class="form-message error" style="min-height:0;"></div>
       <button class="btn-primary btn-full" id="editIdSubmit" onclick="loadProfileForEdit()">
-        <span class="btn-text">Load My Profile</span>
+        <span class="btn-text">Load It Up</span>
         <span class="btn-loading" style="display:none;"><span class="spinner"></span> Loading...</span>
       </button>
     </div>

@@ -1,5 +1,5 @@
 // ========================================
-// Pune Founders Community — App
+// FoundersX - App
 // ========================================
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKNavvyrFCfajkKW03Lomh7Iv2s6D4o4CwbnIt4EfLKZgE3gZdsRtRnZte7IQo1iPe/exec';
@@ -393,9 +393,9 @@ function closeDetail() {
 function openModal() {
   isEditMode = false;
   document.getElementById('f_editId').value = '';
-  document.getElementById('modalTitle').textContent = 'Join the Community';
-  document.getElementById('modalSubtitle').textContent = "Tell Pune's founders about yourself and your startup.";
-  document.getElementById('submitBtnText').textContent = 'Add Me to the Community';
+  document.getElementById('modalTitle').textContent = 'Get on the Map';
+  document.getElementById('modalSubtitle').textContent = '30 seconds to be discoverable. Worth it.';
+  document.getElementById('submitBtnText').textContent = 'Ship My Profile';
   document.getElementById('formMessage').textContent = '';
   document.getElementById('modalOverlay').classList.add('open');
   pushOverlayState('modal');
@@ -405,7 +405,7 @@ function openModal() {
 function openModalForEdit(founder) {
   isEditMode = true;
   document.getElementById('modalTitle').textContent = 'Edit Your Profile';
-  document.getElementById('modalSubtitle').textContent = 'Update your information below.';
+  document.getElementById('modalSubtitle').textContent = 'Glow-up your profile.';
   document.getElementById('submitBtnText').textContent = 'Save Changes';
   document.getElementById('formMessage').textContent = '';
 
@@ -557,11 +557,11 @@ function loadProfileForEdit() {
   const errEl = document.getElementById('editIdError');
   const btn = document.getElementById('editIdSubmit');
 
-  if (!id) { errEl.textContent = 'Please enter your Profile ID.'; return; }
+  if (!id) { errEl.textContent = 'Drop your Profile ID first.'; return; }
 
   const founder = allFounders.find(f => f.id === id);
   if (!founder) {
-    errEl.textContent = 'No profile found with this ID. Please check and try again.';
+    errEl.textContent = 'No profile found with that ID. Double-check it.';
     return;
   }
 
@@ -652,7 +652,7 @@ function renderFounders(list) {
 
   if (list.length === 0) {
     noRes.style.display = 'block';
-    countEl.textContent = 'No founders match your criteria';
+    countEl.textContent = 'No builders match your search';
     return;
   }
 
@@ -818,7 +818,7 @@ async function loadFounders() {
     updateStats();
   } catch (err) {
     console.error('Load failed:', err);
-    document.getElementById('loadingState').innerHTML = '<p style="color:#EF4444;">Failed to load. Please refresh the page.</p>';
+    document.getElementById('loadingState').innerHTML = '<p style="color:#EF4444;">Failed to load the builders. Refresh and try again.</p>';
   }
 }
 
@@ -860,7 +860,7 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
 
   // Validation
   if (!data.name || !data.company || !data.oneLiner || !data.whatsapp || !data.industry || !data.stage) {
-    msg.textContent = 'Please fill in all required fields.';
+    msg.textContent = 'Yo, fill in the required fields first.';
     msg.className = 'form-message error';
     btn.disabled = false; btnText.style.display = 'inline'; btnLoad.style.display = 'none';
     return;
@@ -873,7 +873,7 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
     const clean = data.whatsapp.replace(/\D/g, '');
     const dup = allFounders.find(f => f.whatsapp && f.whatsapp.replace(/\D/g, '') === clean);
     if (dup) {
-      msg.textContent = 'This WhatsApp number is already registered!';
+      msg.textContent = "This number's already on the map. Use Edit Profile to update your info.";
       msg.className = 'form-message error';
       btn.disabled = false; btnText.style.display = 'inline'; btnLoad.style.display = 'none';
       return;
@@ -902,9 +902,9 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
 
     if (editId) {
       // Edit mode — just show success toast
-      msg.textContent = 'Profile updated successfully!';
+      msg.textContent = 'Looking good. Profile updated.';
       msg.className = 'form-message success';
-      showToast('Profile updated!');
+      showToast('Profile updated. Looking sharp.');
       setTimeout(() => closeModal(), 1200);
     } else {
       // New entry — find the new ID and show celebration
@@ -916,7 +916,7 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
       showCelebration(newId);
     }
   } catch (err) {
-    msg.textContent = 'Something went wrong. Please try again.';
+    msg.textContent = 'Something broke on our end. Refresh and try again?';
     msg.className = 'form-message error';
     console.error(err);
   } finally {

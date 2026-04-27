@@ -725,6 +725,26 @@ body {
 .edit-dialog h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
 .edit-dialog p { font-size: 0.88rem; color: var(--text-secondary); }
 
+.edit-dialog-rescue { margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.rescue-divider {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--border); font-weight: 600;
+  display: flex; align-items: center; gap: 10px; width: 100%;
+}
+.rescue-divider::before, .rescue-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+.rescue-text { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+.rescue-wa-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #25D366; color: #fff;
+  font-size: 0.82rem; font-weight: 600;
+  padding: 9px 18px; border-radius: 60px;
+  text-decoration: none; font-family: inherit;
+  transition: background 0.2s, transform 0.15s;
+}
+.rescue-wa-btn:hover { background: #1ebe5d; transform: translateY(-1px); }
+
 /* ====== CONFETTI ====== */
 #confettiContainer {
   position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden;

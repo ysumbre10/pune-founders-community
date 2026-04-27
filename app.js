@@ -164,7 +164,6 @@ function forceUnlockScroll() {
 let allFounders = [];
 let activeFilters = { industry: [], stage: [], help: [], offer: [] };
 let isEditMode = false;
-let hashChecked = false;
 let currentStep = 1;
 const STEP_NAMES = ['The Human', 'The Venture', 'The Network', 'How to Find You'];
 const TOTAL_STEPS = 4;
@@ -343,7 +342,7 @@ function createCard(f, i) {
 
 // ---- DETAIL MODAL ----
 
-function openDetail(f, { noHistory = false } = {}) {
+function openDetail(f) {
   const color = getColor(f.name);
   const ini = getInitials(f.name);
   const inds = tags(f.industry);
@@ -397,18 +396,13 @@ function openDetail(f, { noHistory = false } = {}) {
     </div>`;
 
   document.getElementById('detailOverlay').classList.add('open');
-  if (noHistory) {
-    history.replaceState({ overlay: 'detail', founderId: f.id }, '', '#' + (f.id || ''));
-  } else {
-    history.pushState({ overlay: 'detail', founderId: f.id }, '', '#' + (f.id || ''));
-  }
+  pushOverlayState('detail');
   lockScroll();
 }
 
 function closeDetail(fromPopstate = false) {
   document.getElementById('detailOverlay').classList.remove('open');
   unlockScroll();
-  if (!fromPopstate) history.back();
 }
 
 // ---- MODAL CONTROLS ----
@@ -529,7 +523,7 @@ function pushOverlayState(name) {
 window.addEventListener('popstate', e => {
   if (document.getElementById('celebrationOverlay').classList.contains('open')) { closeCelebration(); return; }
   if (document.getElementById('editDialogOverlay').classList.contains('open')) { closeEditDialog(); return; }
-  if (document.getElementById('detailOverlay').classList.contains('open')) { closeDetail(true); return; }
+  if (document.getElementById('detailOverlay').classList.contains('open')) { closeDetail(); return; }
   if (document.getElementById('modalOverlay').classList.contains('open')) { closeModal(); return; }
   if (document.getElementById('mobileMenu').classList.contains('open')) { closeMobileMenu(); return; }
 });
@@ -870,7 +864,6 @@ async function loadFounders(background = false) {
         applyFilters();
         updateStats();
         renderRecent();
-        if (!hashChecked) { checkHash(); hashChecked = true; }
         loadFounders(true);
         return;
       } catch {}
@@ -889,7 +882,6 @@ async function loadFounders(background = false) {
     applyFilters();
     updateStats();
     renderRecent();
-    if (!hashChecked) { checkHash(); hashChecked = true; }
   } catch (err) {
     console.error('Load failed:', err);
     if (!background) {
@@ -1054,16 +1046,6 @@ function renderRecent() {
   });
 
   section.style.display = 'block';
-}
-
-// ---- SHAREABLE URLS ----
-
-function checkHash() {
-  const hash = window.location.hash.slice(1);
-  if (hash && /^FC\d+$/.test(hash)) {
-    const f = allFounders.find(x => x.id === hash);
-    if (f) setTimeout(() => openDetail(f, { noHistory: true }), 100);
-  }
 }
 
 // ---- MULTI-STEP FORM ----

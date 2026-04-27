@@ -62,10 +62,10 @@ body {
   position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 20;
 }
 .fx-nav-pill {
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 8px;
   background: rgba(0,0,0,0.88);
-  border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
-  padding: 10px 14px;
+  border-bottom-left-radius: 22px; border-bottom-right-radius: 22px;
+  padding: 14px 20px;
 }
 .fx-brand {
   display: flex; align-items: center; gap: 8px;
@@ -81,15 +81,15 @@ body {
 }
 .fx-nav-links { display: flex; align-items: center; gap: 2px; }
 .fx-nav-link {
-  font-size: 0.8rem; font-weight: 500; color: rgba(225,224,204,0.7);
-  text-decoration: none; padding: 6px 12px; border-radius: 8px;
+  font-size: 0.9rem; font-weight: 500; color: rgba(225,224,204,0.75);
+  text-decoration: none; padding: 8px 14px; border-radius: 8px;
   transition: color 0.2s; background: none; border: none; cursor: pointer; font-family: inherit;
 }
 .fx-nav-link:hover { color: #E1E0CC; }
 .fx-nav-cta {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 7px 16px; background: #E1E0CC; color: #0a0a0a;
-  font-size: 0.8rem; font-weight: 700; border: none; border-radius: 60px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 20px; background: #E1E0CC; color: #0a0a0a;
+  font-size: 0.88rem; font-weight: 700; border: none; border-radius: 60px;
   cursor: pointer; font-family: inherit; transition: background 0.2s, transform 0.2s;
 }
 .fx-nav-cta:hover { background: #fff; transform: translateY(-1px); }
@@ -190,17 +190,17 @@ body {
 }
 .fx-stat-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(225,224,204,0.06);
-  border: 1px solid rgba(225,224,204,0.14);
+  background: rgba(225,224,204,0.08);
+  border: 1px solid rgba(225,224,204,0.2);
   border-radius: 100px;
-  padding: 5px 14px;
-  font-size: 0.76rem; font-weight: 500;
-  color: rgba(225,224,204,0.65);
+  padding: 6px 16px;
+  font-size: 0.82rem; font-weight: 500;
+  color: rgba(225,224,204,0.85);
   letter-spacing: 0.02em;
 }
 .fx-num { color: #E1E0CC; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
 .fx-desc-text {
-  font-size: 0.88rem; color: rgba(225,224,204,0.6); line-height: 1.55;
+  font-size: 0.97rem; color: rgba(225,224,204,0.75); line-height: 1.6;
   animation: fxPullUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both;
 }
 .fx-actions {
@@ -212,21 +212,21 @@ body {
 .fx-pill-cta {
   display: inline-flex; align-items: center; gap: 8px;
   background: #E1E0CC; color: #0a0a0a;
-  padding: 5px 5px 5px 20px; border-radius: 100px;
-  font-size: 0.88rem; font-weight: 600; border: none;
+  padding: 6px 6px 6px 22px; border-radius: 100px;
+  font-size: 0.95rem; font-weight: 600; border: none;
   cursor: pointer; font-family: inherit;
   transition: gap 0.2s ease;
 }
 .fx-pill-cta:hover { gap: 14px; }
 .fx-cta-circle {
-  width: 36px; height: 36px; background: #0a0a0a; border-radius: 50%;
+  width: 40px; height: 40px; background: #0a0a0a; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   color: #E1E0CC; flex-shrink: 0;
   transition: transform 0.2s ease;
 }
 .fx-pill-cta:hover .fx-cta-circle { transform: scale(1.1); }
 .fx-browse {
-  font-size: 0.84rem; color: rgba(225,224,204,0.55);
+  font-size: 0.93rem; color: rgba(225,224,204,0.65);
   text-decoration: none; font-weight: 500; transition: color 0.2s;
 }
 .fx-browse:hover { color: #E1E0CC; }

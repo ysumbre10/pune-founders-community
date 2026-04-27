@@ -736,14 +736,16 @@ body {
 }
 .rescue-text { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
 .rescue-wa-btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: #25D366; color: #fff;
-  font-size: 0.82rem; font-weight: 600;
-  padding: 9px 18px; border-radius: 60px;
-  text-decoration: none; font-family: inherit;
+  display: flex !important; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; box-sizing: border-box;
+  background: #25D366 !important; color: #fff !important;
+  font-size: 0.88rem; font-weight: 600;
+  padding: 13px 20px; border-radius: 60px;
+  text-decoration: none !important; font-family: inherit;
   transition: background 0.2s, transform 0.15s;
+  border: none; cursor: pointer;
 }
-.rescue-wa-btn:hover { background: #1ebe5d; transform: translateY(-1px); }
+.rescue-wa-btn:hover { background: #1ebe5d !important; transform: translateY(-1px); }
 
 /* ====== CONFETTI ====== */
 #confettiContainer {

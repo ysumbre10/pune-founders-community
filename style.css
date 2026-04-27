@@ -170,7 +170,7 @@ body {
 .fx-title-col { overflow: hidden; }
 .fx-mega {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 14vw; font-weight: 700;
+  font-size: 11vw; font-weight: 700;
   line-height: 0.85; letter-spacing: -0.07em;
   color: #E1E0CC; display: block;
   animation: fxPullUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
@@ -186,12 +186,19 @@ body {
   padding-bottom: 28px;
 }
 .fx-live-stats {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 0.78rem; color: rgba(225,224,204,0.5); font-weight: 500;
   animation: fxPullUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s both;
 }
+.fx-stat-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(225,224,204,0.06);
+  border: 1px solid rgba(225,224,204,0.14);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 0.76rem; font-weight: 500;
+  color: rgba(225,224,204,0.65);
+  letter-spacing: 0.02em;
+}
 .fx-num { color: #E1E0CC; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
-.fx-sep { opacity: 0.4; }
 .fx-desc-text {
   font-size: 0.88rem; color: rgba(225,224,204,0.6); line-height: 1.55;
   animation: fxPullUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both;
@@ -226,17 +233,18 @@ body {
 
 /* FX responsive */
 @media (max-width: 900px) {
-  .fx-hero-grid { grid-template-columns: 1fr; }
-  .fx-mega { font-size: 18vw; }
-  .fx-desc-col { padding-bottom: 24px; }
+  .fx-hero-grid { grid-template-columns: 1fr; gap: 12px; }
+  .fx-mega { font-size: 15vw; }
+  .fx-title-col { order: 2; }
+  .fx-desc-col { order: 1; padding-bottom: 8px; }
   .fx-desc-text { max-width: 100%; }
 }
 @media (max-width: 500px) {
   .fx-screen { padding: 6px 6px 0; }
   .fx-inner { border-radius: 14px; }
-  .fx-hero { padding: 0 18px 12px; }
-  .fx-mega { font-size: 20vw; }
-  .fx-live-stats { font-size: 0.72rem; }
+  .fx-hero { padding: 0 18px 16px; }
+  .fx-mega { font-size: 16vw; }
+  .fx-stat-badge { font-size: 0.7rem; padding: 4px 12px; }
   .fx-desc-text { font-size: 0.82rem; }
   .fx-pill-cta { font-size: 0.82rem; padding: 4px 4px 4px 16px; }
   .fx-cta-circle { width: 32px; height: 32px; }

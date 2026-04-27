@@ -50,9 +50,7 @@
 
           <div class="fx-desc-col">
             <div class="fx-live-stats">
-              <span><span id="founderCount" class="fx-num">0</span> builders</span>
-              <span class="fx-sep">·</span>
-              <span><span id="companyCount" class="fx-num">0</span> startups</span>
+              <span class="fx-stat-badge"><span id="founderCount" class="fx-num">0</span> Founders</span>
             </div>
             <p class="fx-desc-text">India's only directory you need. Find who's building what - co-founders, mentors, investors, and the people who actually get it.</p>
             <div class="fx-actions">
@@ -92,17 +90,6 @@
       <p class="mobile-menu-footer">Founders<span class="logo-x">X</span></p>
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-container">
-      <div class="footer-brand">
-        <span class="nav-logo-icon sm">F<span class="logo-x">X</span></span>
-        <span>Founders<span class="logo-x">X</span></span>
-      </div>
-      <p>Built for the builders. Powered by community.</p>
-    </div>
-  </footer>
 
   <script>
     // Mobile menu (standalone — no app.js on landing page)
@@ -157,8 +144,6 @@
             })(t0);
           }
           animNum('founderCount', data.length);
-          const cos = new Set(data.map(f => f.company?.toLowerCase()).filter(Boolean));
-          animNum('companyCount', cos.size);
         })
         .catch(() => {});
     })();

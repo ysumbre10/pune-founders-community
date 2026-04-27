@@ -12,27 +12,65 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="container nav-container">
-      <a href="#" class="nav-logo">
-        <span class="nav-logo-icon">F<span class="logo-x">X</span></span>
-        <span>Founders<span class="logo-x">X</span></span>
-      </a>
-      <div class="nav-links">
-        <a href="#directory">Directory</a>
-        <button class="nav-btn-ghost" onclick="openEditDialog()">Edit Profile</button>
-        <button class="nav-cta" onclick="openModal()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-          Join Community
-        </button>
+  <!-- FoundersX Full-Screen Hero -->
+  <div class="fx-screen">
+    <div class="fx-inner">
+      <div class="fx-bg"></div>
+      <div class="fx-overlay"></div>
+
+      <!-- Pill Navbar -->
+      <nav class="fx-nav" id="navbar">
+        <div class="fx-nav-pill">
+          <a href="#" class="fx-brand">
+            <span class="fx-brand-icon">F<span class="logo-x">X</span></span>
+            <span class="fx-brand-text">Founders<span class="logo-x">X</span></span>
+          </a>
+          <div class="fx-nav-links">
+            <a href="#directory" class="fx-nav-link">Directory</a>
+            <button class="fx-nav-link fx-nav-btn" onclick="openEditDialog()">Edit Profile</button>
+            <button class="fx-nav-cta" onclick="openModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              Join
+            </button>
+          </div>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+            <svg id="menuIconOpen" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            <svg id="menuIconClose" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Hero Content bottom-anchored -->
+      <div class="fx-hero">
+        <div class="fx-hero-grid">
+
+          <div class="fx-title-col">
+            <h1 class="fx-mega">Founders<span class="logo-x">X</span></h1>
+          </div>
+
+          <div class="fx-desc-col">
+            <div class="fx-live-stats">
+              <span><span id="founderCount" class="fx-num">0</span> builders</span>
+              <span class="fx-sep">·</span>
+              <span><span id="companyCount" class="fx-num">0</span> startups</span>
+            </div>
+            <p class="fx-desc-text">India's only directory you need. Find who's building what - co-founders, mentors, investors, and the people who actually get it.</p>
+            <div class="fx-actions">
+              <button class="fx-pill-cta" onclick="openModal()">
+                Claim Your Spot
+                <span class="fx-cta-circle">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </button>
+              <a href="#directory" class="fx-browse">Find Your People</a>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-        <svg id="menuIconOpen" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-        <svg id="menuIconClose" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+
     </div>
-  </nav>
+  </div>
 
   <!-- Mobile Menu (Full Page) -->
   <div class="mobile-menu-overlay" id="mobileMenu">
@@ -54,33 +92,6 @@
       <p class="mobile-menu-footer">Founders<span class="logo-x">X</span></p>
     </div>
   </div>
-
-  <!-- Hero -->
-  <header class="hero">
-    <div class="hero-mesh"></div>
-    <div class="hero-glow hero-glow-1"></div>
-    <div class="hero-glow hero-glow-2"></div>
-    <div class="container hero-container">
-      <div class="hero-badge">India's Builder Network</div>
-      <h1 class="hero-title">Where Founders<br><span class="gradient-text">Find Each Other</span></h1>
-      <p class="hero-subtitle">The only directory you need. Find who's building what across India - co-founders, mentors, investors, and the people who actually get it.</p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="founderCount">0</span>
-          <span class="hero-stat-label">Founders</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="companyCount">0</span>
-          <span class="hero-stat-label">Startups</span>
-        </div>
-      </div>
-      <div class="hero-actions">
-        <button class="btn-primary btn-lg" onclick="openModal()">Claim Your Spot</button>
-        <a href="#directory" class="btn-ghost btn-lg">Find Your People</a>
-      </div>
-    </div>
-  </header>
 
   <!-- Directory Section -->
   <section id="directory" class="section directory-section">

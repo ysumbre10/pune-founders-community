@@ -21,14 +21,14 @@
       <!-- Pill Navbar -->
       <nav class="fx-nav" id="navbar">
         <div class="fx-nav-pill">
-          <a href="#" class="fx-brand">
+          <a href="/" class="fx-brand">
             <span class="fx-brand-icon">F<span class="logo-x">X</span></span>
             <span class="fx-brand-text">Founders<span class="logo-x">X</span></span>
           </a>
           <div class="fx-nav-links">
-            <a href="#directory" class="fx-nav-link">Directory</a>
-            <button class="fx-nav-link fx-nav-btn" onclick="openEditDialog()">Edit Profile</button>
-            <button class="fx-nav-cta" onclick="openModal()">
+            <a href="directory.html" class="fx-nav-link">Directory</a>
+            <a href="directory.html?edit=1" class="fx-nav-link">Edit Profile</a>
+            <button class="fx-nav-cta" onclick="window.location.href='directory.html?join=1'">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
               Join
             </button>
@@ -56,13 +56,13 @@
             </div>
             <p class="fx-desc-text">India's only directory you need. Find who's building what - co-founders, mentors, investors, and the people who actually get it.</p>
             <div class="fx-actions">
-              <button class="fx-pill-cta" onclick="openModal()">
+              <button class="fx-pill-cta" onclick="window.location.href='directory.html?join=1'">
                 Claim Your Spot
                 <span class="fx-cta-circle">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </span>
               </button>
-              <a href="#directory" class="fx-browse">Find Your People</a>
+              <a href="directory.html" class="fx-browse">Find Your People</a>
             </div>
           </div>
 
@@ -76,128 +76,22 @@
   <div class="mobile-menu-overlay" id="mobileMenu">
     <div class="mobile-menu-inner">
       <nav class="mobile-nav">
-        <a href="#directory" onclick="closeMobileMenu()" class="mobile-nav-link">
+        <a href="directory.html" class="mobile-nav-link">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Browse Directory
         </a>
-        <button onclick="openEditDialog(); closeMobileMenu();" class="mobile-nav-link">
+        <a href="directory.html?edit=1" class="mobile-nav-link">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Edit Profile
-        </button>
+        </a>
       </nav>
-      <button class="mobile-cta" onclick="openModal(); closeMobileMenu();">
+      <button class="mobile-cta" onclick="window.location.href='directory.html?join=1'">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
         Claim Your Spot
       </button>
       <p class="mobile-menu-footer">Founders<span class="logo-x">X</span></p>
     </div>
   </div>
-
-  <!-- Directory Section -->
-  <section id="directory" class="section directory-section">
-    <div class="container">
-
-      <!-- Search -->
-      <div class="search-wrap">
-        <div class="search-box">
-          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="searchInput" placeholder="Search founders, startups, skills, needs...">
-          <button class="search-clear" id="searchClear" style="display:none;" aria-label="Clear">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-          </button>
-        </div>
-        <div class="search-suggestions" id="searchSuggestions">
-          <span class="search-hint">Try:</span>
-          <button class="suggestion-chip" data-query="looking for funding">Needs Funding</button>
-          <button class="suggestion-chip" data-query="co-founder">Looking for Co-founder</button>
-          <button class="suggestion-chip" data-query="mentorship">Mentorship</button>
-          <button class="suggestion-chip" data-query="hiring">Hiring</button>
-          <button class="suggestion-chip" data-query="AI">AI Startups</button>
-          <button class="suggestion-chip" data-query="technical help">Tech Help</button>
-        </div>
-      </div>
-
-      <!-- Filters & Sort -->
-      <div class="controls-bar">
-        <button class="filter-toggle" id="filterToggle">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
-          Filters
-          <span class="filter-count-badge" id="filterCountBadge" style="display:none;">0</span>
-        </button>
-        <div class="sort-wrap">
-          <label class="sort-label">Sort:</label>
-          <select id="sortSelect">
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-            <option value="name">Name A-Z</option>
-            <option value="company">Company A-Z</option>
-          </select>
-        </div>
-        <div class="results-count" id="resultsCount"></div>
-      </div>
-
-      <!-- Filter Panel -->
-      <div class="filter-panel" id="filterPanel" style="display:none;">
-        <div class="filter-section">
-          <div class="filter-section-head">
-            <span class="filter-section-title">Industry</span>
-          </div>
-          <div class="filter-chips" id="industryFilters"></div>
-        </div>
-        <div class="filter-section">
-          <div class="filter-section-head">
-            <span class="filter-section-title">Stage</span>
-          </div>
-          <div class="filter-chips" id="stageFilters"></div>
-        </div>
-        <div class="filter-section">
-          <div class="filter-section-head">
-            <span class="filter-section-title">Needs Help With</span>
-          </div>
-          <div class="filter-chips" id="helpFilters"></div>
-        </div>
-        <div class="filter-section">
-          <div class="filter-section-head">
-            <span class="filter-section-title">Can Offer</span>
-          </div>
-          <div class="filter-chips" id="offerFilters"></div>
-        </div>
-        <div class="filter-actions">
-          <button class="clear-filters-btn" id="clearAllFilters">Clear All Filters</button>
-        </div>
-      </div>
-
-      <!-- Active Filters -->
-      <div class="active-filters" id="activeFilters" style="display:none;">
-        <div class="active-filter-tags" id="activeFilterTags"></div>
-        <button class="clear-all-link" id="clearAllLink">Clear all</button>
-      </div>
-
-      <!-- Founder Grid -->
-      <div id="founderGrid" class="founder-grid"></div>
-
-      <!-- States -->
-      <div id="loadingState" class="state-msg">
-        <div class="loader"></div>
-        <p>Fetching the builders...</p>
-      </div>
-      <div id="emptyState" class="state-msg" style="display:none;">
-        <div class="state-icon">
-          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3>First mover advantage - all yours.</h3>
-        <p>Be the first founder on the map.</p>
-        <button class="btn-primary" onclick="openModal()" style="margin-top:16px;">Claim Your Spot</button>
-      </div>
-      <div id="noResults" class="state-msg" style="display:none;">
-        <div class="state-icon">
-          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6"/></svg>
-        </div>
-        <h3>Nothing here.</h3>
-        <p>Your future co-founder is hiding somewhere. Try a different search.</p>
-      </div>
-    </div>
-  </section>
 
   <!-- Footer -->
   <footer class="footer">
@@ -210,248 +104,64 @@
     </div>
   </footer>
 
-  <!-- ========== MODALS ========== -->
+  <script>
+    // Mobile menu (standalone — no app.js on landing page)
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIconOpen = document.getElementById('menuIconOpen');
+    const menuIconClose = document.getElementById('menuIconClose');
+    let savedY = 0;
 
-  <!-- Add/Edit Profile Modal -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal" id="profileModal">
-      <div class="modal-header">
-        <div>
-          <h2 id="modalTitle">Get on the Map</h2>
-          <p id="modalSubtitle">30 seconds to be discoverable. Worth it.</p>
-        </div>
-        <button class="modal-close" onclick="closeModal()" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-        </button>
-      </div>
-      <button class="mobile-back-close" onclick="closeModal()" aria-label="Close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <form id="founderForm" class="modal-body">
-        <input type="hidden" id="f_editId" value="">
+    mobileMenuBtn.addEventListener('click', () => {
+      if (mobileMenu.classList.contains('open')) {
+        closeMobileMenu();
+      } else {
+        savedY = window.scrollY;
+        mobileMenu.classList.add('open');
+        menuIconOpen.style.display = 'none';
+        menuIconClose.style.display = 'block';
+        document.body.style.position = 'fixed';
+        document.body.style.top = '-' + savedY + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+      }
+    });
 
-        <!-- About You -->
-        <div class="form-section">
-          <h3 class="form-section-title">
-            <span class="form-section-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </span>
-            The Human Behind the Hustle
-          </h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f_name">What do people call you? <span class="req">*</span></label>
-              <input type="text" id="f_name" placeholder="e.g. Priya Sharma" required>
-            </div>
-            <div class="form-group">
-              <label for="f_role">Title / Hat you wear <span class="req">*</span></label>
-              <input type="text" id="f_role" placeholder="e.g. Co-founder & CEO" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="f_bio">Origin Story</label>
-            <textarea id="f_bio" rows="2" placeholder="Ex-banker turned founder? Dropped out to ship? Serial pivoter? Give us the lore."></textarea>
-          </div>
-          <div class="form-group">
-            <label for="f_puneArea">City / Base of Ops</label>
-            <select id="f_puneArea" onchange="toggleOtherArea()">
-              <option value="">Where are you building from?</option>
-              <option>Bengaluru</option>
-              <option>Mumbai</option>
-              <option>Delhi</option>
-              <option>Gurugram / Noida</option>
-              <option>Hyderabad</option>
-              <option>Pune</option>
-              <option>Chennai</option>
-              <option>Ahmedabad</option>
-              <option>Kolkata</option>
-              <option>Jaipur</option>
-              <option>Indore</option>
-              <option>Kochi</option>
-              <option>Chandigarh</option>
-              <option>Nagpur</option>
-              <option>Surat</option>
-              <option>Bhopal</option>
-              <option>Coimbatore</option>
-              <option value="Other">Other</option>
-            </select>
-            <input type="text" id="f_puneAreaOther" class="other-input" placeholder="Type your city or area..." style="display:none; margin-top:8px;">
-          </div>
-        </div>
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      menuIconOpen.style.display = 'block';
+      menuIconClose.style.display = 'none';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      window.scrollTo(0, savedY);
+    }
 
-        <!-- Your Startup -->
-        <div class="form-section">
-          <h3 class="form-section-title">
-            <span class="form-section-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </span>
-            The Venture
-          </h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f_company">Startup Name <span class="req">*</span></label>
-              <input type="text" id="f_company" placeholder="e.g. Razorpay, Zepto, your next big thing" required>
-            </div>
-            <div class="form-group">
-              <label for="f_foundedYear">Founded Year</label>
-              <input type="number" id="f_foundedYear" placeholder="e.g. 2024" min="1990" max="2030">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="f_oneLiner">The pitch. Make it count. <span class="req">*</span></label>
-            <textarea id="f_oneLiner" rows="2" placeholder="e.g. We kill spreadsheets for CA firms. 10x faster closes, zero reconciliation headache." required></textarea>
-          </div>
-          <div class="form-group">
-            <label>Industry <span class="req">*</span></label>
-            <div class="tag-selector" id="industrySelector"></div>
-            <input type="hidden" id="f_industry">
-          </div>
-          <div class="form-group">
-            <label>Stage <span class="req">*</span></label>
-            <div class="tag-selector" id="stageSelector"></div>
-            <input type="hidden" id="f_stage">
-          </div>
-        </div>
-
-        <!-- Help & Collaboration -->
-        <div class="form-section">
-          <h3 class="form-section-title">
-            <span class="form-section-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </span>
-            The Network Play
-          </h3>
-          <div class="form-group">
-            <label>What are you hunting for? <span class="hint">(select all that apply)</span></label>
-            <div class="tag-selector" id="helpSelector"></div>
-            <input type="hidden" id="f_helpNeeded">
-          </div>
-          <div class="form-group">
-            <label>What can you bring to the table? <span class="hint">(select all that apply)</span></label>
-            <div class="tag-selector" id="offerSelector"></div>
-            <input type="hidden" id="f_canOffer">
-          </div>
-        </div>
-
-        <!-- Contact & Socials -->
-        <div class="form-section">
-          <h3 class="form-section-title">
-            <span class="form-section-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-            </span>
-            How to Find You
-          </h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f_whatsapp">WhatsApp Number <span class="req">*</span></label>
-              <input type="tel" id="f_whatsapp" placeholder="+91 98765 43210" required>
-            </div>
-            <div class="form-group">
-              <label for="f_email">Email</label>
-              <input type="email" id="f_email" placeholder="you@startup.com">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f_linkedin">LinkedIn</label>
-              <input type="url" id="f_linkedin" placeholder="https://linkedin.com/in/yourname">
-            </div>
-            <div class="form-group">
-              <label for="f_twitter">Twitter / X</label>
-              <input type="url" id="f_twitter" placeholder="https://x.com/yourhandle">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f_facebook">Facebook</label>
-              <input type="url" id="f_facebook" placeholder="https://facebook.com/yourpage">
-            </div>
-            <div class="form-group">
-              <label for="f_instagram">Instagram</label>
-              <input type="url" id="f_instagram" placeholder="https://instagram.com/yourhandle">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="f_website">Website</label>
-            <input type="url" id="f_website" placeholder="https://yourstartup.com">
-          </div>
-        </div>
-
-        <div class="form-footer">
-          <button type="submit" class="btn-primary btn-lg btn-full" id="submitBtn">
-            <span class="btn-text" id="submitBtnText">Ship My Profile</span>
-            <span class="btn-loading" style="display:none;">
-              <span class="spinner"></span> Saving...
-            </span>
-          </button>
-          <div id="formMessage" class="form-message"></div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Founder Detail Modal -->
-  <div class="modal-overlay" id="detailOverlay">
-    <div class="modal modal-detail" id="detailModal">
-      <button class="modal-close detail-close" onclick="closeDetail()" aria-label="Close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-      <div id="detailContent"></div>
-    </div>
-  </div>
-
-  <!-- Success Celebration Modal -->
-  <div class="modal-overlay" id="celebrationOverlay">
-    <div class="celebration-modal" id="celebrationModal">
-      <button class="modal-close celebration-close" onclick="closeCelebration()" aria-label="Close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-      <div class="celebration-content">
-        <div class="celebration-emoji">🎉</div>
-        <h2>You're in. Welcome to the tribe.</h2>
-        <p class="celebration-subtitle">You're now on India's founder map.</p>
-        <div class="celebration-id-box">
-          <div class="celebration-id-label">Your Profile ID</div>
-          <div class="celebration-id-value" id="celebrationId">FC1234567890</div>
-          <button class="copy-id-btn" id="copyIdBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy ID
-          </button>
-        </div>
-        <p class="celebration-note">Screenshot this. Tattoo it. Just don't lose it - you'll need it to edit your profile.</p>
-        <button class="btn-primary btn-lg" onclick="closeCelebration()">Show me who's building</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Edit ID Dialog -->
-  <div class="modal-overlay" id="editDialogOverlay">
-    <div class="edit-dialog">
-      <button class="modal-close" onclick="closeEditDialog()" aria-label="Close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-      <div class="edit-dialog-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-      </div>
-      <h3>Edit Your Profile</h3>
-      <p>Drop the Profile ID we made you screenshot. You did screenshot it, right?</p>
-      <div class="form-group" style="margin-top:16px;">
-        <input type="text" id="editIdInput" placeholder="e.g. FC1711899123456">
-      </div>
-      <div id="editIdError" class="form-message error" style="min-height:0;"></div>
-      <button class="btn-primary btn-full" id="editIdSubmit" onclick="loadProfileForEdit()">
-        <span class="btn-text">Load It Up</span>
-        <span class="btn-loading" style="display:none;"><span class="spinner"></span> Loading...</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Confetti Container -->
-  <div id="confettiContainer"></div>
-
-  <!-- Toast -->
-  <div id="toast" class="toast"></div>
-
-  <script src="app.js"></script>
+    // Live stats — lightweight fetch, no full app.js needed
+    (function() {
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKNavvyrFCfajkKW03Lomh7Iv2s6D4o4CwbnIt4EfLKZgE3gZdsRtRnZte7IQo1iPe/exec';
+      fetch(SCRIPT_URL, { redirect: 'follow' })
+        .then(r => r.text())
+        .then(text => {
+          const data = JSON.parse(text);
+          if (!Array.isArray(data)) return;
+          function animNum(id, target) {
+            const el = document.getElementById(id);
+            if (!el || !target) return;
+            const dur = 700, t0 = performance.now();
+            (function step(now) {
+              const p = Math.min((now - t0) / dur, 1);
+              el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+              if (p < 1) requestAnimationFrame(step);
+            })(t0);
+          }
+          animNum('founderCount', data.length);
+          const cos = new Set(data.map(f => f.company?.toLowerCase()).filter(Boolean));
+          animNum('companyCount', cos.size);
+        })
+        .catch(() => {});
+    })();
+  </script>
 </body>
 </html>

@@ -533,7 +533,8 @@ function closeMobileMenu() {
 
 // Navbar scroll
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+  const nav = document.getElementById('navbar');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
 });
 
 // ---- EDIT DIALOG ----

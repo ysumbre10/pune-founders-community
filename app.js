@@ -4,6 +4,10 @@
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKNavvyrFCfajkKW03Lomh7Iv2s6D4o4CwbnIt4EfLKZgE3gZdsRtRnZte7IQo1iPe/exec';
 
+const CACHE_KEY = 'fx_founders_cache';
+const CACHE_TS_KEY = 'fx_founders_ts';
+const CACHE_TTL = 5 * 60 * 1000;
+
 // ---- DATA CONSTANTS ----
 
 const INDUSTRIES = [
@@ -160,6 +164,10 @@ function forceUnlockScroll() {
 let allFounders = [];
 let activeFilters = { industry: [], stage: [], help: [], offer: [] };
 let isEditMode = false;
+let hashChecked = false;
+let currentStep = 1;
+const STEP_NAMES = ['The Human', 'The Venture', 'The Network', 'How to Find You'];
+const TOTAL_STEPS = 4;
 
 // ---- "OTHER" FIELD TOGGLES ----
 
@@ -335,7 +343,7 @@ function createCard(f, i) {
 
 // ---- DETAIL MODAL ----
 
-function openDetail(f) {
+function openDetail(f, { noHistory = false } = {}) {
   const color = getColor(f.name);
   const ini = getInitials(f.name);
   const inds = tags(f.industry);
@@ -389,13 +397,18 @@ function openDetail(f) {
     </div>`;
 
   document.getElementById('detailOverlay').classList.add('open');
-  pushOverlayState('detail');
+  if (noHistory) {
+    history.replaceState({ overlay: 'detail', founderId: f.id }, '', '#' + (f.id || ''));
+  } else {
+    history.pushState({ overlay: 'detail', founderId: f.id }, '', '#' + (f.id || ''));
+  }
   lockScroll();
 }
 
-function closeDetail() {
+function closeDetail(fromPopstate = false) {
   document.getElementById('detailOverlay').classList.remove('open');
   unlockScroll();
+  if (!fromPopstate) history.back();
 }
 
 // ---- MODAL CONTROLS ----
@@ -410,6 +423,7 @@ function openModal() {
   document.getElementById('modalOverlay').classList.add('open');
   pushOverlayState('modal');
   lockScroll();
+  goToStep(1);
 }
 
 function openModalForEdit(founder) {
@@ -457,6 +471,7 @@ function openModalForEdit(founder) {
   document.getElementById('modalOverlay').classList.add('open');
   pushOverlayState('modal');
   lockScroll();
+  goToStep(1);
 }
 
 function setTagSelector(containerId, hiddenId, value, multi) {
@@ -485,6 +500,7 @@ function closeModal() {
   const indOther = document.getElementById('f_industryOther');
   if (indOther) { indOther.style.display = 'none'; indOther.value = ''; }
   isEditMode = false;
+  goToStep(1);
 }
 
 // Detail overlay
@@ -513,7 +529,7 @@ function pushOverlayState(name) {
 window.addEventListener('popstate', e => {
   if (document.getElementById('celebrationOverlay').classList.contains('open')) { closeCelebration(); return; }
   if (document.getElementById('editDialogOverlay').classList.contains('open')) { closeEditDialog(); return; }
-  if (document.getElementById('detailOverlay').classList.contains('open')) { closeDetail(); return; }
+  if (document.getElementById('detailOverlay').classList.contains('open')) { closeDetail(true); return; }
   if (document.getElementById('modalOverlay').classList.contains('open')) { closeModal(); return; }
   if (document.getElementById('mobileMenu').classList.contains('open')) { closeMobileMenu(); return; }
 });
@@ -843,7 +859,24 @@ document.getElementById('sortSelect').addEventListener('change', applyFilters);
 
 // ---- DATA LOADING ----
 
-async function loadFounders() {
+async function loadFounders(background = false) {
+  if (!background) {
+    const cached = localStorage.getItem(CACHE_KEY);
+    const ts = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
+    if (cached && Date.now() - ts < CACHE_TTL) {
+      try {
+        const data = JSON.parse(cached);
+        allFounders = Array.isArray(data) ? data : [];
+        applyFilters();
+        updateStats();
+        renderRecent();
+        if (!hashChecked) { checkHash(); hashChecked = true; }
+        loadFounders(true);
+        return;
+      } catch {}
+    }
+  }
+
   try {
     const res = await fetch(SCRIPT_URL, { redirect: 'follow' });
     const text = await res.text();
@@ -851,11 +884,17 @@ async function loadFounders() {
     try { data = JSON.parse(text); } catch { throw new Error('Invalid response'); }
     if (data.error) throw new Error(data.error);
     allFounders = Array.isArray(data) ? data : [];
+    localStorage.setItem(CACHE_KEY, JSON.stringify(allFounders));
+    localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
     applyFilters();
     updateStats();
+    renderRecent();
+    if (!hashChecked) { checkHash(); hashChecked = true; }
   } catch (err) {
     console.error('Load failed:', err);
-    document.getElementById('loadingState').innerHTML = '<p style="color:#EF4444;">Failed to load the builders. Refresh and try again.</p>';
+    if (!background) {
+      document.getElementById('loadingState').innerHTML = '<p style="color:#EF4444;">Failed to load the builders. Refresh and try again.</p>';
+    }
   }
 }
 
@@ -951,12 +990,16 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
       body: JSON.stringify(data)
     });
 
+    // Bust cache so next load fetches fresh data
+    localStorage.removeItem(CACHE_KEY);
+    localStorage.removeItem(CACHE_TS_KEY);
+
     // Poll until sheet reflects the change (max 5 retries × 1.5s = 7.5s)
     const clean = data.whatsapp.replace(/\D/g, '');
     let newFounder = null;
     for (let attempt = 0; attempt < 5; attempt++) {
       await new Promise(r => setTimeout(r, 1500));
-      await loadFounders();
+      await loadFounders(true); // bypass cache to detect new entry
       if (editId) break;
       newFounder = allFounders.find(f => f.whatsapp && f.whatsapp.replace(/\D/g, '') === clean);
       if (newFounder) break;
@@ -985,6 +1028,119 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
   }
 });
 
+// ---- RECENTLY JOINED ----
+
+function renderRecent() {
+  const section = document.getElementById('recentSection');
+  if (!section || allFounders.length < 2) return;
+
+  const recent = [...allFounders].slice(-4).reverse();
+  const row = document.getElementById('recentRow');
+  row.innerHTML = '';
+
+  recent.forEach(f => {
+    const color = getColor(f.name);
+    const ini = getInitials(f.name);
+    const card = document.createElement('button');
+    card.className = 'recent-card';
+    card.onclick = () => openDetail(f);
+    card.innerHTML = `
+      <div class="recent-avatar" style="background:${color}">${ini}</div>
+      <div class="recent-info">
+        <div class="recent-name">${esc(f.name)}</div>
+        <div class="recent-company">${esc(f.company || '')}</div>
+      </div>`;
+    row.appendChild(card);
+  });
+
+  section.style.display = 'block';
+}
+
+// ---- SHAREABLE URLS ----
+
+function checkHash() {
+  const hash = window.location.hash.slice(1);
+  if (hash && /^FC\d+$/.test(hash)) {
+    const f = allFounders.find(x => x.id === hash);
+    if (f) setTimeout(() => openDetail(f, { noHistory: true }), 100);
+  }
+}
+
+// ---- MULTI-STEP FORM ----
+
+function goToStep(step) {
+  const steps = document.querySelectorAll('.form-step');
+  steps.forEach((el, i) => { el.style.display = (i + 1 === step) ? 'block' : 'none'; });
+  currentStep = step;
+
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const dot = document.getElementById('sdot' + i);
+    if (!dot) continue;
+    dot.className = 'stepper-dot' + (i < step ? ' done' : i === step ? ' active' : '');
+  }
+  for (let i = 1; i < TOTAL_STEPS; i++) {
+    const line = document.getElementById('sline' + i);
+    if (line) line.className = 'stepper-line' + (i < step ? ' active' : '');
+  }
+
+  const stepNumEl = document.getElementById('stepNum');
+  const stepNameEl = document.getElementById('stepName');
+  if (stepNumEl) stepNumEl.textContent = `Step ${step} of ${TOTAL_STEPS}`;
+  if (stepNameEl) stepNameEl.textContent = STEP_NAMES[step - 1];
+
+  const prevBtn = document.getElementById('stepPrev');
+  const nextBtn = document.getElementById('stepNext');
+  const submitBtn = document.getElementById('submitBtn');
+  if (prevBtn) prevBtn.style.display = step > 1 ? 'flex' : 'none';
+  if (nextBtn) nextBtn.style.display = step < TOTAL_STEPS ? 'flex' : 'none';
+  if (submitBtn) submitBtn.style.display = step === TOTAL_STEPS ? 'flex' : 'none';
+
+  const msg = document.getElementById('formMessage');
+  if (msg) { msg.textContent = ''; msg.className = 'form-message'; }
+
+  const overlay = document.getElementById('modalOverlay');
+  if (overlay) overlay.scrollTop = 0;
+}
+
+function validateStep(step) {
+  const msg = document.getElementById('formMessage');
+  const fail = text => { msg.textContent = text; msg.className = 'form-message error'; return false; };
+
+  if (step === 1) {
+    if (!document.getElementById('f_name').value.trim()) return fail('What do people call you?');
+    if (!document.getElementById('f_role').value.trim()) return fail('What hat do you wear?');
+    if (document.getElementById('f_puneArea').value === 'Other' && !document.getElementById('f_puneAreaOther').value.trim()) {
+      return fail('Type your city name.');
+    }
+  }
+  if (step === 2) {
+    if (!document.getElementById('f_company').value.trim()) return fail("What's your startup called?");
+    if (!document.getElementById('f_oneLiner').value.trim()) return fail('Give us the pitch.');
+    if (!document.getElementById('f_industry').value) return fail('Pick an industry.');
+    if (!document.getElementById('f_stage').value) return fail('Where are you in the journey?');
+    const yr = document.getElementById('f_foundedYear').value;
+    if (yr) {
+      const n = parseInt(yr, 10);
+      if (isNaN(n) || n < 1900 || n > new Date().getFullYear() + 5) return fail('That founding year looks off.');
+    }
+  }
+  if (step === 4) {
+    if (!document.getElementById('f_whatsapp').value.trim()) return fail('We need your WhatsApp number.');
+  }
+
+  msg.textContent = ''; msg.className = 'form-message';
+  return true;
+}
+
+function nextStep() {
+  if (!validateStep(currentStep)) return;
+  if (currentStep < TOTAL_STEPS) goToStep(currentStep + 1);
+}
+
+function prevStep() {
+  if (currentStep > 1) goToStep(currentStep - 1);
+}
+
 // ---- THEME TOGGLE ----
 (function() {
   const BULB_ON  = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/><line x1="12" y1="2" x2="12" y2="1"/><line x1="4.22" y1="4.22" x2="3.51" y2="3.51"/><line x1="19.78" y1="4.22" x2="20.49" y2="3.51"/></svg>`;
@@ -999,7 +1155,7 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
     btn.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
   }
 
-  const saved = localStorage.getItem('fx-theme') || 'light';
+  const saved = localStorage.getItem('fx-theme') || 'dark';
   applyTheme(saved);
 
   btn.addEventListener('click', () => {
@@ -1010,4 +1166,5 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
 })();
 
 // ---- INIT ----
+goToStep(1);
 loadFounders();

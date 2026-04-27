@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>(function(){var t=localStorage.getItem('fx-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){var t=localStorage.getItem('fx-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
   <title>Directory - FoundersX</title>
   <meta name="theme-color" content="#6366F1">
   <meta name="description" content="Browse India's founder directory. Find co-founders, mentors, investors, and collaborators building across India.">
@@ -145,6 +145,15 @@
         <button class="clear-all-link" id="clearAllLink">Clear all</button>
       </div>
 
+      <!-- Recently Joined -->
+      <div id="recentSection" class="recent-section" style="display:none;">
+        <div class="recent-header">
+          <span class="recent-title">Recently Joined</span>
+          <span class="recent-new-badge">New</span>
+        </div>
+        <div class="recent-scroll" id="recentRow"></div>
+      </div>
+
       <!-- Founder Grid -->
       <div id="founderGrid" class="founder-grid"></div>
 
@@ -188,13 +197,30 @@
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="profileModal">
       <div class="modal-header">
-        <div>
-          <h2 id="modalTitle">Get on the Map</h2>
-          <p id="modalSubtitle">30 seconds to be discoverable. Worth it.</p>
+        <div class="modal-header-row">
+          <div>
+            <h2 id="modalTitle">Get on the Map</h2>
+            <p id="modalSubtitle">30 seconds to be discoverable. Worth it.</p>
+          </div>
+          <button class="modal-close" onclick="closeModal()" aria-label="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
         </div>
-        <button class="modal-close" onclick="closeModal()" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-        </button>
+        <div class="form-stepper" id="formStepper">
+          <div class="stepper-dots">
+            <span class="stepper-dot active" id="sdot1">1</span>
+            <span class="stepper-line" id="sline1"></span>
+            <span class="stepper-dot" id="sdot2">2</span>
+            <span class="stepper-line" id="sline2"></span>
+            <span class="stepper-dot" id="sdot3">3</span>
+            <span class="stepper-line" id="sline3"></span>
+            <span class="stepper-dot" id="sdot4">4</span>
+          </div>
+          <div class="stepper-meta">
+            <span class="stepper-step-num" id="stepNum">Step 1 of 4</span>
+            <span class="stepper-step-name" id="stepName">The Human</span>
+          </div>
+        </div>
       </div>
       <button class="mobile-back-close" onclick="closeModal()" aria-label="Close">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -202,7 +228,8 @@
       <form id="founderForm" class="modal-body">
         <input type="hidden" id="f_editId" value="">
 
-        <!-- About You -->
+        <!-- Step 1: The Human -->
+        <div class="form-step" id="step1">
         <div class="form-section">
           <h3 class="form-section-title">
             <span class="form-section-icon">
@@ -250,8 +277,10 @@
             <input type="text" id="f_puneAreaOther" class="other-input" placeholder="Type your city or area..." style="display:none; margin-top:8px;">
           </div>
         </div>
+        </div><!-- /step1 -->
 
-        <!-- Your Startup -->
+        <!-- Step 2: The Venture -->
+        <div class="form-step" id="step2" style="display:none;">
         <div class="form-section">
           <h3 class="form-section-title">
             <span class="form-section-icon">
@@ -284,8 +313,10 @@
             <input type="hidden" id="f_stage">
           </div>
         </div>
+        </div><!-- /step2 -->
 
-        <!-- Help & Collaboration -->
+        <!-- Step 3: The Network -->
+        <div class="form-step" id="step3" style="display:none;">
         <div class="form-section">
           <h3 class="form-section-title">
             <span class="form-section-icon">
@@ -304,8 +335,10 @@
             <input type="hidden" id="f_canOffer">
           </div>
         </div>
+        </div><!-- /step3 -->
 
-        <!-- Contact & Socials -->
+        <!-- Step 4: How to Find You -->
+        <div class="form-step" id="step4" style="display:none;">
         <div class="form-section">
           <h3 class="form-section-title">
             <span class="form-section-icon">
@@ -348,15 +381,24 @@
             <input type="url" id="f_website" placeholder="https://yourstartup.com">
           </div>
         </div>
+        </div><!-- /step4 -->
 
-        <div class="form-footer">
-          <button type="submit" class="btn-primary btn-lg btn-full" id="submitBtn">
+        <div id="formMessage" class="form-message" style="margin-top:12px;min-height:18px;"></div>
+        <div class="step-nav">
+          <button type="button" class="step-nav-prev" id="stepPrev" onclick="prevStep()" style="display:none;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Back
+          </button>
+          <button type="button" class="step-nav-next" id="stepNext" onclick="nextStep()">
+            Next
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button type="submit" class="btn-primary btn-lg" id="submitBtn" style="display:none;margin-left:auto;">
             <span class="btn-text" id="submitBtnText">Ship My Profile</span>
             <span class="btn-loading" style="display:none;">
               <span class="spinner"></span> Saving...
             </span>
           </button>
-          <div id="formMessage" class="form-message"></div>
         </div>
       </form>
     </div>
@@ -365,7 +407,7 @@
   <!-- Founder Detail Modal -->
   <div class="modal-overlay" id="detailOverlay">
     <div class="modal modal-detail" id="detailModal">
-      <button class="modal-close detail-close" onclick="closeDetail()" aria-label="Close">
+      <button class="modal-close detail-close" onclick="closeDetail(false)" aria-label="Close">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
       <div id="detailContent"></div>

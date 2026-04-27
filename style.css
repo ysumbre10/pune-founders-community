@@ -955,8 +955,92 @@ body {
 .dir-nav-cta:hover { background: #fff; transform: translateY(-1px); }
 .dir-mobile-btn { color: #E1E0CC !important; }
 
+/* Theme toggle button */
+.theme-toggle {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(225,224,204,0.15);
+  border-radius: 10px; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(225,224,204,0.65);
+  transition: all 0.2s;
+}
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.1);
+  color: #E1E0CC;
+  border-color: rgba(225,224,204,0.3);
+}
+
 @media (max-width: 700px) {
   .dir-nav-links,
   .dir-nav-actions { display: none; }
   .dir-mobile-btn { display: block !important; }
 }
+
+/* ====== DARK MODE ====== */
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --surface: #181b26;
+  --text: #E8E6D4;
+  --text-secondary: #9CA3AF;
+  --text-tertiary: #6B7280;
+  --border: rgba(255,255,255,0.1);
+  --border-light: rgba(255,255,255,0.07);
+  --primary-bg: rgba(99,102,241,0.15);
+  --primary-bg2: rgba(99,102,241,0.2);
+  --accent-bg: rgba(245,158,11,0.12);
+  --success-bg: rgba(16,185,129,0.12);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.7);
+}
+
+[data-theme="dark"] body { background: var(--bg); color: var(--text); }
+
+/* Cards and surfaces */
+[data-theme="dark"] .founder-card { background: var(--surface); border-color: var(--border); }
+[data-theme="dark"] .filter-panel { background: var(--surface); border-color: var(--border); }
+[data-theme="dark"] .filter-chip { background: var(--surface); border-color: var(--border); color: var(--text-secondary); }
+[data-theme="dark"] .tag-option { background: var(--surface); border-color: var(--border); color: var(--text-secondary); }
+
+/* Search & controls */
+[data-theme="dark"] .search-box { background: var(--surface); border-color: var(--border); }
+[data-theme="dark"] .search-box input { background: transparent; color: var(--text); }
+[data-theme="dark"] .filter-toggle { background: var(--surface); border-color: var(--border); color: var(--text); }
+[data-theme="dark"] .sort-wrap select { background: var(--surface); border-color: var(--border); color: var(--text); }
+
+/* Forms */
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .other-input { background: var(--surface); color: var(--text); border-color: var(--border); }
+[data-theme="dark"] .form-group input::placeholder,
+[data-theme="dark"] .form-group textarea::placeholder { color: var(--text-tertiary); }
+
+/* Modals */
+[data-theme="dark"] .modal { background: #1a1d27; }
+[data-theme="dark"] .celebration-modal { background: #1a1d27; }
+[data-theme="dark"] .edit-dialog { background: #1a1d27; }
+[data-theme="dark"] .detail-social-btn { background: var(--surface); border-color: var(--border); color: var(--text-secondary); }
+[data-theme="dark"] .detail-social-btn.wa-btn { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.2); color: #34D399; }
+[data-theme="dark"] .detail-avatar { border-color: var(--surface); }
+
+/* Tags */
+[data-theme="dark"] .tag-industry { background: rgba(99,102,241,0.15); color: #818CF8; }
+[data-theme="dark"] .tag-need { background: rgba(245,158,11,0.12); color: #FCD34D; }
+[data-theme="dark"] .tag-offer { background: rgba(16,185,129,0.12); color: #34D399; }
+[data-theme="dark"] .detail-tag.industry { background: rgba(99,102,241,0.15); color: #818CF8; }
+[data-theme="dark"] .detail-tag.need { background: rgba(245,158,11,0.12); color: #FCD34D; }
+[data-theme="dark"] .detail-tag.offer { background: rgba(16,185,129,0.12); color: #34D399; }
+[data-theme="dark"] .card-stage-badge { background: rgba(99,102,241,0.15); color: #818CF8; }
+[data-theme="dark"] .detail-stage { background: rgba(99,102,241,0.15); color: #818CF8; }
+[data-theme="dark"] .tag-more { background: rgba(255,255,255,0.07); color: var(--text-tertiary); }
+[data-theme="dark"] .active-tag { background: rgba(99,102,241,0.2); color: #818CF8; }
+[data-theme="dark"] .active-tag button { color: #818CF8; }
+
+/* Footer */
+[data-theme="dark"] .footer { background: #0a0a0a; border-top-color: rgba(255,255,255,0.07); }
+
+/* Theme toggle bulb — glow when in dark mode */
+[data-theme="dark"] .theme-toggle { color: #FCD34D; border-color: rgba(252,211,77,0.25); }
+[data-theme="dark"] .theme-toggle:hover { background: rgba(252,211,77,0.1); border-color: rgba(252,211,77,0.4); }

@@ -943,5 +943,29 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
   }
 });
 
+// ---- THEME TOGGLE ----
+(function() {
+  const BULB_ON  = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/><line x1="12" y1="2" x2="12" y2="1"/><line x1="4.22" y1="4.22" x2="3.51" y2="3.51"/><line x1="19.78" y1="4.22" x2="20.49" y2="3.51"/></svg>`;
+  const BULB_OFF = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>`;
+
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.innerHTML = theme === 'dark' ? BULB_ON : BULB_OFF;
+    btn.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+  }
+
+  const saved = localStorage.getItem('fx-theme') || 'light';
+  applyTheme(saved);
+
+  btn.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('fx-theme', next);
+    applyTheme(next);
+  });
+})();
+
 // ---- INIT ----
 loadFounders();

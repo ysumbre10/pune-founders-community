@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>(function(){var t=localStorage.getItem('fx-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
   <title>Directory - FoundersX</title>
+  <meta name="theme-color" content="#6366F1">
   <meta name="description" content="Browse India's founder directory. Find co-founders, mentors, investors, and collaborators building across India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,7 +105,7 @@
             <option value="company">Company A-Z</option>
           </select>
         </div>
-        <div class="results-count" id="resultsCount"></div>
+        <div class="results-count" id="resultsCount" aria-live="polite"></div>
       </div>
 
       <!-- Filter Panel -->
@@ -221,7 +222,7 @@
           </div>
           <div class="form-group">
             <label for="f_bio">Origin Story</label>
-            <textarea id="f_bio" rows="2" placeholder="Ex-banker turned founder? Dropped out to ship? Serial pivoter? Give us the lore."></textarea>
+            <textarea id="f_bio" rows="2" maxlength="300" placeholder="Ex-banker turned founder? Dropped out to ship? Serial pivoter? Give us the lore."></textarea>
           </div>
           <div class="form-group">
             <label for="f_puneArea">City / Base of Ops</label>
@@ -270,7 +271,7 @@
           </div>
           <div class="form-group">
             <label for="f_oneLiner">The pitch. Make it count. <span class="req">*</span></label>
-            <textarea id="f_oneLiner" rows="2" placeholder="e.g. We kill spreadsheets for CA firms. 10x faster closes, zero reconciliation headache." required></textarea>
+            <textarea id="f_oneLiner" rows="2" maxlength="180" placeholder="e.g. We kill spreadsheets for CA firms. 10x faster closes, zero reconciliation headache." required></textarea>
           </div>
           <div class="form-group">
             <label>Industry <span class="req">*</span></label>
@@ -315,7 +316,7 @@
           <div class="form-row">
             <div class="form-group">
               <label for="f_whatsapp">WhatsApp Number <span class="req">*</span></label>
-              <input type="tel" id="f_whatsapp" placeholder="+91 98765 43210" required>
+              <input type="tel" id="f_whatsapp" placeholder="+91 98765 43210" autocomplete="tel" required>
             </div>
             <div class="form-group">
               <label for="f_email">Email</label>

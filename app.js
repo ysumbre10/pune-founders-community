@@ -73,6 +73,14 @@ function esc(str) {
   return d.innerHTML;
 }
 
+function safeUrl(u) {
+  if (!u) return null;
+  try {
+    const parsed = new URL(u.startsWith('http') ? u : 'https://' + u);
+    return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : null;
+  } catch { return null; }
+}
+
 function fmtWa(n) {
   const d = n.replace(/[^0-9+]/g, '');
   return d.startsWith('+') ? d : '+' + d;
@@ -102,11 +110,11 @@ function animateNum(el, target) {
   requestAnimationFrame(step);
 }
 
-let searchTimer;
 function debounce(fn, ms) {
+  let timer;
   return function(...args) {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => fn.apply(this, args), ms);
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), ms);
   };
 }
 
@@ -289,15 +297,12 @@ function createCard(f, i) {
 
   let socHTML = '';
   const wa = fmtWa(f.whatsapp).replace('+', '');
-  socHTML += `<a href="https://wa.me/${wa}" target="_blank" rel="noopener" class="card-social wa" title="WhatsApp" onclick="event.stopPropagation()">${IC.wa}</a>`;
-  if (f.linkedin) socHTML += `<a href="${esc(f.linkedin)}" target="_blank" rel="noopener" class="card-social li" title="LinkedIn" onclick="event.stopPropagation()">${IC.li}</a>`;
-  if (f.twitter) socHTML += `<a href="${esc(f.twitter)}" target="_blank" rel="noopener" class="card-social tw" title="Twitter" onclick="event.stopPropagation()">${IC.tw}</a>`;
-  if (f.facebook) socHTML += `<a href="${esc(f.facebook)}" target="_blank" rel="noopener" class="card-social fb" title="Facebook" onclick="event.stopPropagation()">${IC.fb}</a>`;
-  if (f.instagram) socHTML += `<a href="${esc(f.instagram)}" target="_blank" rel="noopener" class="card-social ig" title="Instagram" onclick="event.stopPropagation()">${IC.ig}</a>`;
-  if (f.website) {
-    let u = f.website; if (!u.startsWith('http')) u = 'https://' + u;
-    socHTML += `<a href="${esc(u)}" target="_blank" rel="noopener" class="card-social" title="Website" onclick="event.stopPropagation()">${IC.web}</a>`;
-  }
+  socHTML += `<a href="https://wa.me/${wa}" target="_blank" rel="noopener noreferrer" class="card-social wa" title="WhatsApp" onclick="event.stopPropagation()">${IC.wa}</a>`;
+  const liUrl = safeUrl(f.linkedin);   if (liUrl) socHTML += `<a href="${esc(liUrl)}" target="_blank" rel="noopener noreferrer" class="card-social li" title="LinkedIn" onclick="event.stopPropagation()">${IC.li}</a>`;
+  const twUrl = safeUrl(f.twitter);    if (twUrl) socHTML += `<a href="${esc(twUrl)}" target="_blank" rel="noopener noreferrer" class="card-social tw" title="Twitter" onclick="event.stopPropagation()">${IC.tw}</a>`;
+  const fbUrl = safeUrl(f.facebook);   if (fbUrl) socHTML += `<a href="${esc(fbUrl)}" target="_blank" rel="noopener noreferrer" class="card-social fb" title="Facebook" onclick="event.stopPropagation()">${IC.fb}</a>`;
+  const igUrl = safeUrl(f.instagram);  if (igUrl) socHTML += `<a href="${esc(igUrl)}" target="_blank" rel="noopener noreferrer" class="card-social ig" title="Instagram" onclick="event.stopPropagation()">${IC.ig}</a>`;
+  const webUrl = safeUrl(f.website);   if (webUrl) socHTML += `<a href="${esc(webUrl)}" target="_blank" rel="noopener noreferrer" class="card-social" title="Website" onclick="event.stopPropagation()">${IC.web}</a>`;
 
   const card = document.createElement('div');
   card.className = 'founder-card';
@@ -311,10 +316,8 @@ function createCard(f, i) {
         <div class="card-role">${esc(f.role || '')}</div>
         <div class="card-company-line">
           ${(function() {
-            if (f.website) {
-              let u = f.website; if (!u.startsWith('http')) u = 'https://' + u;
-              return `<a href="${esc(u)}" target="_blank" rel="noopener" class="card-company card-company-link" onclick="event.stopPropagation()">${esc(f.company)}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:3px;opacity:0.5;vertical-align:middle"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`;
-            }
+            const cu = safeUrl(f.website);
+            if (cu) return `<a href="${esc(cu)}" target="_blank" rel="noopener noreferrer" class="card-company card-company-link" onclick="event.stopPropagation()">${esc(f.company)}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:3px;opacity:0.5;vertical-align:middle"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`;
             return `<span class="card-company">${esc(f.company)}</span>`;
           })()}
           ${f.stage ? `<span class="card-stage-badge">${esc(f.stage)}</span>` : ''}
@@ -341,16 +344,13 @@ function openDetail(f) {
 
   let socHTML = '';
   const wa = fmtWa(f.whatsapp).replace('+', '');
-  socHTML += `<a href="https://wa.me/${wa}" target="_blank" rel="noopener" class="detail-social-btn wa-btn">${IC.wa} WhatsApp</a>`;
-  if (f.linkedin) socHTML += `<a href="${esc(f.linkedin)}" target="_blank" rel="noopener" class="detail-social-btn">${IC.li} LinkedIn</a>`;
-  if (f.twitter) socHTML += `<a href="${esc(f.twitter)}" target="_blank" rel="noopener" class="detail-social-btn">${IC.tw} Twitter / X</a>`;
-  if (f.facebook) socHTML += `<a href="${esc(f.facebook)}" target="_blank" rel="noopener" class="detail-social-btn">${IC.fb} Facebook</a>`;
-  if (f.instagram) socHTML += `<a href="${esc(f.instagram)}" target="_blank" rel="noopener" class="detail-social-btn">${IC.ig} Instagram</a>`;
+  socHTML += `<a href="https://wa.me/${wa}" target="_blank" rel="noopener noreferrer" class="detail-social-btn wa-btn">${IC.wa} WhatsApp</a>`;
+  const dLiUrl = safeUrl(f.linkedin);   if (dLiUrl) socHTML += `<a href="${esc(dLiUrl)}" target="_blank" rel="noopener noreferrer" class="detail-social-btn">${IC.li} LinkedIn</a>`;
+  const dTwUrl = safeUrl(f.twitter);    if (dTwUrl) socHTML += `<a href="${esc(dTwUrl)}" target="_blank" rel="noopener noreferrer" class="detail-social-btn">${IC.tw} Twitter / X</a>`;
+  const dFbUrl = safeUrl(f.facebook);   if (dFbUrl) socHTML += `<a href="${esc(dFbUrl)}" target="_blank" rel="noopener noreferrer" class="detail-social-btn">${IC.fb} Facebook</a>`;
+  const dIgUrl = safeUrl(f.instagram);  if (dIgUrl) socHTML += `<a href="${esc(dIgUrl)}" target="_blank" rel="noopener noreferrer" class="detail-social-btn">${IC.ig} Instagram</a>`;
   if (f.email) socHTML += `<a href="mailto:${esc(f.email)}" class="detail-social-btn">${IC.email} Email</a>`;
-  if (f.website) {
-    let u = f.website; if (!u.startsWith('http')) u = 'https://' + u;
-    socHTML += `<a href="${esc(u)}" target="_blank" rel="noopener" class="detail-social-btn">${IC.web} Website</a>`;
-  }
+  const dWebUrl = safeUrl(f.website);   if (dWebUrl) socHTML += `<a href="${esc(dWebUrl)}" target="_blank" rel="noopener noreferrer" class="detail-social-btn">${IC.web} Website</a>`;
 
   document.getElementById('detailContent').innerHTML = `
     <div class="detail-banner"><div class="detail-banner-inner"></div><div class="detail-banner-pattern"></div></div>
@@ -361,10 +361,8 @@ function openDetail(f) {
         <div class="detail-role">${esc(f.role || '')}</div>
         <div class="detail-company-line">
           ${(function() {
-            if (f.website) {
-              let u = f.website; if (!u.startsWith('http')) u = 'https://' + u;
-              return `<a href="${esc(u)}" target="_blank" rel="noopener" class="detail-company detail-company-link">${esc(f.company)}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:4px;opacity:0.6;vertical-align:middle"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`;
-            }
+            const dcu = safeUrl(f.website);
+            if (dcu) return `<a href="${esc(dcu)}" target="_blank" rel="noopener noreferrer" class="detail-company detail-company-link">${esc(f.company)}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:4px;opacity:0.6;vertical-align:middle"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`;
             return `<span class="detail-company">${esc(f.company)}</span>`;
           })()}
           ${f.stage ? `<span class="detail-stage">${esc(f.stage)}</span>` : ''}
@@ -543,10 +541,15 @@ function closeMobileMenu() {
   unlockScroll();
 }
 
-// Navbar scroll
+// Navbar scroll - rAF throttled to avoid mobile layout thrashing
+let scrollRaf;
 window.addEventListener('scroll', () => {
-  const nav = document.getElementById('navbar');
-  if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+  if (scrollRaf) return;
+  scrollRaf = requestAnimationFrame(() => {
+    scrollRaf = null;
+    const nav = document.getElementById('navbar');
+    if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
 });
 
 // ---- EDIT DIALOG ----
@@ -565,19 +568,28 @@ function closeEditDialog() {
   unlockScroll();
 }
 
+let editAttempts = 0;
+const MAX_EDIT_ATTEMPTS = 10;
+
 function loadProfileForEdit() {
   const id = document.getElementById('editIdInput').value.trim();
   const errEl = document.getElementById('editIdError');
-  const btn = document.getElementById('editIdSubmit');
 
   if (!id) { errEl.textContent = 'Drop your Profile ID first.'; return; }
 
+  if (editAttempts >= MAX_EDIT_ATTEMPTS) {
+    errEl.textContent = 'Too many attempts. Refresh the page to try again.';
+    return;
+  }
+
   const founder = allFounders.find(f => f.id === id);
   if (!founder) {
+    editAttempts++;
     errEl.textContent = 'No profile found with that ID. Double-check it.';
     return;
   }
 
+  editAttempts = 0;
   errEl.textContent = '';
   closeEditDialog();
   openModalForEdit(founder);
@@ -595,8 +607,9 @@ function showCelebration(id) {
 
 function closeCelebration() {
   document.getElementById('celebrationOverlay').classList.remove('open');
+  clearTimeout(confettiTimer);
+  document.getElementById('confettiContainer').innerHTML = '';
   unlockScroll();
-  // Wait a tick for scroll position to restore, then scroll to directory
   setTimeout(() => {
     document.getElementById('directory').scrollIntoView({ behavior: 'smooth' });
   }, 50);
@@ -614,6 +627,7 @@ document.getElementById('copyIdBtn').addEventListener('click', () => {
 
 // ---- CONFETTI ----
 
+let confettiTimer;
 function launchConfetti() {
   const container = document.getElementById('confettiContainer');
   container.innerHTML = '';
@@ -634,7 +648,7 @@ function launchConfetti() {
     `;
     container.appendChild(piece);
   }
-  setTimeout(() => { container.innerHTML = ''; }, 4000);
+  confettiTimer = setTimeout(() => { container.innerHTML = ''; }, 4000);
 }
 
 // ---- RENDERING ----
@@ -644,7 +658,7 @@ function updateStats() {
   if (fcEl) animateNum(fcEl, allFounders.length);
   const ccEl = document.getElementById('companyCount');
   if (ccEl) {
-    const cos = new Set(allFounders.map(f => f.company.toLowerCase()));
+    const cos = new Set(allFounders.map(f => f.company?.toLowerCase()).filter(Boolean));
     animateNum(ccEl, cos.size);
   }
 }
@@ -753,7 +767,7 @@ function updateActiveFiltersUI() {
   if (!all.length) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'flex';
   tagsEl.innerHTML = all.map(({ l, k }) =>
-    `<span class="active-tag">${esc(l)}<button onclick="removeFilter('${k}','${l.replace(/'/g, "\\'")}')">\u00d7</button></span>`
+    `<span class="active-tag">${esc(l)}<button data-key="${esc(k)}" data-val="${esc(l)}" aria-label="Remove filter">\u00d7</button></span>`
   ).join('');
 }
 
@@ -772,6 +786,12 @@ function updateFilterBadge() {
   badge.style.display = total > 0 ? 'inline' : 'none';
   badge.textContent = total;
 }
+
+// Active filter tag removal via event delegation
+document.getElementById('activeFilterTags').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-key]');
+  if (btn) removeFilter(btn.dataset.key, btn.dataset.val);
+});
 
 // Clear all
 document.getElementById('clearAllFilters').addEventListener('click', clearAll);
@@ -883,6 +903,24 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
     return;
   }
 
+  if (document.getElementById('f_puneArea').value === 'Other' && !document.getElementById('f_puneAreaOther').value.trim()) {
+    msg.textContent = 'Yo, fill in the required fields first.';
+    msg.className = 'form-message error';
+    btn.disabled = false; btnText.style.display = 'inline'; btnLoad.style.display = 'none';
+    document.getElementById('f_puneAreaOther').focus();
+    return;
+  }
+
+  if (data.foundedYear) {
+    const yr = parseInt(data.foundedYear, 10);
+    if (isNaN(yr) || yr < 1900 || yr > new Date().getFullYear() + 5) {
+      msg.textContent = 'That founding year looks off. Try a real year.';
+      msg.className = 'form-message error';
+      btn.disabled = false; btnText.style.display = 'inline'; btnLoad.style.display = 'none';
+      return;
+    }
+  }
+
   const editId = document.getElementById('f_editId').value.trim();
 
   // Duplicate check (only for new entries)
@@ -913,9 +951,16 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
       body: JSON.stringify(data)
     });
 
-    // Wait for sheet to update, then reload
-    await new Promise(r => setTimeout(r, 2000));
-    await loadFounders();
+    // Poll until sheet reflects the change (max 5 retries × 1.5s = 7.5s)
+    const clean = data.whatsapp.replace(/\D/g, '');
+    let newFounder = null;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      await new Promise(r => setTimeout(r, 1500));
+      await loadFounders();
+      if (editId) break;
+      newFounder = allFounders.find(f => f.whatsapp && f.whatsapp.replace(/\D/g, '') === clean);
+      if (newFounder) break;
+    }
 
     if (editId) {
       // Edit mode - just show success toast
@@ -925,10 +970,7 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
       setTimeout(() => closeModal(), 1200);
     } else {
       // New entry - find the new ID and show celebration
-      const clean = data.whatsapp.replace(/\D/g, '');
-      const newFounder = allFounders.find(f => f.whatsapp && f.whatsapp.replace(/\D/g, '') === clean);
       const newId = newFounder ? newFounder.id : 'Unknown';
-
       closeModal();
       showCelebration(newId);
     }

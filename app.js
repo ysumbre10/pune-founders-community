@@ -426,7 +426,7 @@ function openModalForEdit(founder) {
   document.getElementById('f_name').value = founder.name || '';
   document.getElementById('f_role').value = founder.role || '';
   document.getElementById('f_bio').value = founder.bio || '';
-  // Handle area — check if it's a known option or custom "Other"
+  // Handle area - check if it's a known option or custom "Other"
   const knownAreas = [...document.getElementById('f_puneArea').options].map(o => o.value);
   if (founder.puneArea && !knownAreas.includes(founder.puneArea)) {
     document.getElementById('f_puneArea').value = 'Other';
@@ -520,7 +520,7 @@ window.addEventListener('popstate', e => {
   if (document.getElementById('mobileMenu').classList.contains('open')) { closeMobileMenu(); return; }
 });
 
-// Mobile menu — full-page overlay
+// Mobile menu - full-page overlay
 document.getElementById('mobileMenuBtn').addEventListener('click', () => {
   const menu = document.getElementById('mobileMenu');
   const isOpen = menu.classList.contains('open');
@@ -700,7 +700,7 @@ function applyFilters() {
   const sortMethod = document.getElementById('sortSelect').value;
   let filtered = [...allFounders];
 
-  // Text search — split into terms for multi-word search
+  // Text search - split into terms for multi-word search
   if (q) {
     const terms = q.split(/\s+/).filter(Boolean);
     filtered = filtered.filter(f => {
@@ -918,13 +918,13 @@ document.getElementById('founderForm').addEventListener('submit', async (e) => {
     await loadFounders();
 
     if (editId) {
-      // Edit mode — just show success toast
+      // Edit mode - just show success toast
       msg.textContent = 'Looking good. Profile updated.';
       msg.className = 'form-message success';
       showToast('Profile updated. Looking sharp.');
       setTimeout(() => closeModal(), 1200);
     } else {
-      // New entry — find the new ID and show celebration
+      // New entry - find the new ID and show celebration
       const clean = data.whatsapp.replace(/\D/g, '');
       const newFounder = allFounders.find(f => f.whatsapp && f.whatsapp.replace(/\D/g, '') === clean);
       const newId = newFounder ? newFounder.id : 'Unknown';

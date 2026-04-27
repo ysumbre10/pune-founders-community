@@ -1,4 +1,4 @@
-# FoundersX — Product Overview
+# FoundersX - Product Overview
 
 **Live:** https://ysumbre10.github.io/FoundersX/
 
@@ -26,7 +26,7 @@ FoundersX is a community directory for startup founders building across India. I
 
 ## How it's wired up
 
-- **Stack:** Vanilla HTML + CSS + JavaScript — no framework, no build step
+- **Stack:** Vanilla HTML + CSS + JavaScript - no framework, no build step
 - **Data layer:** Google Sheet + Google Apps Script as a REST API
   - `GET` to Apps Script → returns all founders as JSON → renders cards
   - `POST` to Apps Script → appends or updates a row in the sheet
@@ -34,7 +34,7 @@ FoundersX is a community directory for startup founders building across India. I
   - 2-second wait after submit, then re-fetches the sheet to refresh the UI
 - **Hosting:** GitHub Pages, deployed from `main` branch
 - **Fonts:** Google Fonts (Inter + Space Grotesk)
-- **No auth** — anyone with the link can add or edit a profile via their WhatsApp-based ID
+- **No auth** - anyone with the link can add or edit a profile via their WhatsApp-based ID
 
 ---
 
@@ -47,13 +47,13 @@ FoundersX is a community directory for startup founders building across India. I
 
 ### Discovery
 - [ ] Co-founder matching algorithm (match by complementary skills/needs)
-- [ ] Map view — plot founders by location within Pune
+- [ ] Map view - plot founders by location within Pune
 - [ ] "Open to Coffee Chat" availability badge
 - [ ] Browse by tag: Investor / Mentor / Hiring / Fundraising
 
 ### Community & Engagement
 - [ ] Direct messaging or contact request system
-- [ ] Events calendar — meetups, demo days, AMAs
+- [ ] Events calendar - meetups, demo days, AMAs
 - [ ] Job board / freelance gig listings
 - [ ] Weekly digest email with new founders
 - [ ] Upvoting / endorsements between founders
